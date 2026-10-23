@@ -82,7 +82,7 @@ textarea {
   caret-color: var(--rust);
 }
 .site {
-  overflow: hidden;
+  overflow-x: clip;
 }
 .serif {
   font-family: "Instrument Serif", serif;
