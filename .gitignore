@@ -1,0 +1,8 @@
+node_modules
+.DS_Store
+dist
+*.log
+.80degrees_chat.json
+.80degrees_checkpoints.json
+.80degrees_branches.json
+.80degrees_meta.json
