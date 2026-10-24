@@ -26,29 +26,33 @@ export default function BrandScene({ paused }) {
     renderer.toneMappingExposure = 0.95;
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
+    const palette = getComputedStyle(container);
+    const orange = new THREE.Color(palette.getPropertyValue("--orange").trim());
+    const ivory = new THREE.Color(palette.getPropertyValue("--paper").trim());
+    const copper = new THREE.Color(palette.getPropertyValue("--rust").trim());
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
     camera.position.set(0, 0, 11);
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
     const environment = pmrem.fromScene(room, 0.04);
     scene.environment = environment.texture;
-    const ambient = new THREE.HemisphereLight(0xfff8e9, 0x773e27, 1.8);
+    const ambient = new THREE.HemisphereLight(ivory, copper, 1.8);
     scene.add(ambient);
-    const key = new THREE.DirectionalLight(0xfff6df, 4);
+    const key = new THREE.DirectionalLight(ivory, 4);
     key.position.set(-4, 5, 6);
     scene.add(key);
-    const edge = new THREE.DirectionalLight(0xffffff, 3);
+    const edge = new THREE.DirectionalLight(ivory, 3);
     edge.position.set(5, 2, -3);
     scene.add(edge);
     const material = new THREE.MeshPhysicalMaterial({
-      color: 0xad3714,
+      color: orange,
       metalness: 0.65,
       roughness: 0.28,
       clearcoat: 0.8,
       clearcoatRoughness: 0.18,
     });
     const cream = new THREE.MeshPhysicalMaterial({
-      color: 0xe8ddc9,
+      color: ivory,
       metalness: 0.4,
       roughness: 0.26,
     });

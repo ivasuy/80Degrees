@@ -56,7 +56,13 @@ export default function ScrollStory({ paused, onTogglePause }) {
       const rect = root.getBoundingClientRect();
       const value = reduced
         ? 0.12
-        : Math.max(0, Math.min(1, -rect.top / Math.max(rect.height - stage.offsetHeight, 1)));
+        : Math.max(
+            0,
+            Math.min(
+              1,
+              -rect.top / Math.max(rect.height - stage.offsetHeight, 1),
+            ),
+          );
       progress.current = value;
       const enter = range(value, 0.08, 0.11);
       const exit = 1 - range(value, 0.27, 0.3);
@@ -65,11 +71,16 @@ export default function ScrollStory({ paused, onTogglePause }) {
       const arrivalVisible = reduced || value > 0.94;
       title.style.opacity = reduced ? 1 : Math.min(enter, exit);
       title.style.transform = reduced ? "none" : `scale(${scale})`;
-      title.style.setProperty("--word-spread", reduced ? 0 : range(value, 0.15, 0.21));
+      title.style.setProperty(
+        "--word-spread",
+        reduced ? 0 : range(value, 0.15, 0.21),
+      );
       title.setAttribute("aria-hidden", String(!titleVisible));
       title.inert = !titleVisible;
       arrival.style.opacity = reduced ? 1 : range(value, 0.94, 0.97);
-      arrival.style.transform = reduced ? "none" : `translateY(${(1 - range(value, 0.94, 0.97)) * 18}px)`;
+      arrival.style.transform = reduced
+        ? "none"
+        : `translateY(${(1 - range(value, 0.94, 0.97)) * 18}px)`;
       arrival.setAttribute("aria-hidden", String(!arrivalVisible));
       arrival.inert = !arrivalVisible;
       const active = value < 0.3 ? 0 : value < 0.88 ? 1 : 2;
@@ -129,25 +140,42 @@ export default function ScrollStory({ paused, onTogglePause }) {
           </Suspense>
         )}
         <div className="story-topline">
-          <a href="#platform" className="story-brand">80degrees</a>
+          <a href="#platform" className="story-brand">
+            <img src="/favicon.svg" alt="" width="24" height="24" />
+            80degrees
+          </a>
           <button
             onClick={onTogglePause}
-            aria-label={paused ? "Play story ambient motion" : "Pause story ambient motion"}
+            aria-label={
+              paused
+                ? "Play story ambient motion"
+                : "Pause story ambient motion"
+            }
             aria-pressed={paused}
           >
             {paused ? <Play size={14} /> : <Pause size={14} />}
           </button>
         </div>
         <div className="story-copy">
-          <h2 className="story-title" aria-label={titleLines.join(" ")} aria-hidden={!reduced}>
+          <h2
+            className="story-title"
+            aria-label={titleLines.join(" ")}
+            aria-hidden={!reduced}
+          >
             {titleLines.map((line) => {
               const words = line.split(" ");
               return (
-                <span className="story-title-line" key={line} aria-hidden="true">
+                <span
+                  className="story-title-line"
+                  key={line}
+                  aria-hidden="true"
+                >
                   {words.map((word, index) => (
                     <span
                       key={`${word}-${index}`}
-                      style={{ "--word-offset": index - (words.length - 1) / 2 }}
+                      style={{
+                        "--word-offset": index - (words.length - 1) / 2,
+                      }}
                     >
                       {word}
                     </span>
@@ -156,9 +184,13 @@ export default function ScrollStory({ paused, onTogglePause }) {
               );
             })}
           </h2>
-          <div className="story-arrival" aria-hidden={!reduced} inert={reduced ? undefined : ""}>
+          <div
+            className="story-arrival"
+            aria-hidden={!reduced}
+            inert={reduced ? undefined : ""}
+          >
             <span className="story-arrival-brand">80degrees</span>
-            <a href="#builds" className="story-cta">
+            <a href="#builds" className="button button-rust story-cta">
               Bring your next idea to life. <ArrowUpRight size={20} />
             </a>
           </div>
@@ -181,7 +213,15 @@ export default function ScrollStory({ paused, onTogglePause }) {
           </a>
         </div>
         <div className="story-credit">
-          Original scene assets: <a href="https://lusion.co/" target="_blank" rel="noreferrer" title="Original meshes, textures, and animation by Lusion. Local rendering adapted for 80degrees. Downloading these assets does not establish commercial reuse rights.">Lusion</a>
+          Original scene assets:{" "}
+          <a
+            href="https://lusion.co/"
+            target="_blank"
+            rel="noreferrer"
+            title="Original meshes, textures, and animation by Lusion. Local rendering adapted for 80degrees. Downloading these assets does not establish commercial reuse rights."
+          >
+            Lusion
+          </a>
         </div>
         <div className="story-meter" aria-hidden="true">
           <span className="story-meter-fill" />

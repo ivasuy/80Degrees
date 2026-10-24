@@ -1,0 +1,228 @@
+/* A brief brand reveal, not an asset-loading indicator. */
+.intro-sequence {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: max(32px, env(safe-area-inset-top)) 5.55%
+    max(64px, calc(env(safe-area-inset-bottom) + 48px));
+  background: var(--paper);
+  color: var(--ink);
+  isolation: isolate;
+  opacity: 1;
+  transition: opacity var(--intro-exit-duration) cubic-bezier(0.4, 0, 0.2, 1);
+}
+.intro-sequence:focus {
+  outline: none;
+}
+.intro-sequence.intro-leaving {
+  opacity: 0;
+}
+.intro-top,
+.intro-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.intro-top > span:first-child {
+  font:
+    650 22px/1 "Manrope",
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+.intro-top > span:last-child,
+.intro-bottom > span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+}
+.intro-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.intro-bottom button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 0 10px 16px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+  transition: color 160ms ease;
+}
+.intro-bottom button:hover,
+.intro-bottom button:active {
+  color: var(--rust);
+}
+.intro-bottom button:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 6px;
+}
+.intro-center {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 40px 0;
+}
+.intro-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 28px);
+}
+.intro-mark {
+  flex: 0 0 auto;
+  width: clamp(72px, 10vw, 144px);
+  height: auto;
+  color: var(--orange, #eb6a2b);
+  animation: intro-mark-turn 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-mark path {
+  stroke-dasharray: 1;
+  animation: intro-mark-draw 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-wordmark {
+  font:
+    650 clamp(38px, 6.6vw, 96px)/1.1 "Manrope",
+    sans-serif;
+  letter-spacing: -0.04em;
+  animation: intro-word-reveal 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-phrase {
+  color: var(--muted);
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.5;
+  text-align: center;
+  animation: intro-phrase-reveal 1050ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-phrase i {
+  color: var(--ink);
+  font-family: "Instrument Serif", serif;
+  font-size: 1.2em;
+}
+@keyframes intro-mark-turn {
+  from {
+    transform: rotate(-80deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+@keyframes intro-mark-draw {
+  from {
+    stroke-dashoffset: 0.72;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes intro-word-reveal {
+  from {
+    opacity: 0.35;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes intro-phrase-reveal {
+  from {
+    opacity: 0.2;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.site[data-intro="true"] .header {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.site[data-intro="true"] .hero-copy > * {
+  animation: none;
+  opacity: 0;
+}
+@media (max-width: 760px) {
+  .intro-sequence {
+    padding: max(24px, env(safe-area-inset-top)) 6%
+      max(60px, calc(env(safe-area-inset-bottom) + 44px));
+  }
+  .intro-top > span:first-child {
+    font-size: 19px;
+  }
+  .intro-top > span:last-child {
+    max-width: 132px;
+    font-size: 9px;
+    text-align: right;
+  }
+  .intro-center {
+    gap: 24px;
+  }
+  .intro-lockup {
+    gap: 8px;
+  }
+  .intro-mark {
+    width: clamp(64px, 15vw, 100px);
+  }
+  .intro-wordmark {
+    font-size: clamp(32px, 8vw, 60px);
+  }
+  .intro-phrase i {
+    display: block;
+  }
+  .intro-bottom {
+    gap: 12px;
+  }
+  .intro-bottom > span {
+    max-width: 155px;
+    font-size: 9px;
+  }
+  .intro-bottom button {
+    flex-shrink: 0;
+    padding-left: 8px;
+  }
+}
+@media (max-height: 500px) {
+  .intro-sequence {
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(44px, env(safe-area-inset-bottom));
+  }
+  .intro-center {
+    gap: 8px;
+    padding: 16px 0;
+  }
+  .intro-mark {
+    width: 64px;
+  }
+  .intro-wordmark {
+    font-size: 40px;
+  }
+  .intro-phrase i {
+    display: inline;
+  }
+  .intro-bottom {
+    padding-top: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-sequence {
+    display: none;
+    transition: none;
+  }
+  .intro-sequence * {
+    animation: none;
+  }
+}

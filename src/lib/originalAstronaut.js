@@ -28,11 +28,14 @@ function decodeBuffer(buffer) {
 
   for (const attribute of header.attributes) {
     const storage = STORAGE[attribute.storageType];
-    if (!storage) throw new Error(`Unsupported .buf storage: ${attribute.storageType}`);
+    if (!storage)
+      throw new Error(`Unsupported .buf storage: ${attribute.storageType}`);
     const { Type } = storage;
     const bytes = Type.BYTES_PER_ELEMENT;
     const isIndex = attribute.id === "indices";
-    const count = (isIndex ? header.indexCount : header.vertexCount) * attribute.componentSize;
+    const count =
+      (isIndex ? header.indexCount : header.vertexCount) *
+      attribute.componentSize;
     if (offset + count * bytes > buffer.byteLength) {
       throw new Error(`Truncated .buf attribute: ${attribute.id}`);
     }
@@ -46,8 +49,10 @@ function decodeBuffer(buffer) {
     for (let i = 0; i < count; i++) {
       const raw = view[storage.read](offset + i * bytes, true);
       if (packed) {
-        const component = attribute.packedComponents[i % attribute.componentSize];
-        array[i] = ((raw + bias) / denominator) * component.delta + component.from;
+        const component =
+          attribute.packedComponents[i % attribute.componentSize];
+        array[i] =
+          ((raw + bias) / denominator) * component.delta + component.from;
       } else {
         array[i] = raw;
       }
@@ -60,7 +65,8 @@ function decodeBuffer(buffer) {
 
 async function fetchAsset(name, signal) {
   const response = await fetch(`${ASSET_ROOT}${name}`, { signal });
-  if (!response.ok) throw new Error(`Lusion asset ${name}: HTTP ${response.status}`);
+  if (!response.ok)
+    throw new Error(`Lusion asset ${name}: HTTP ${response.status}`);
   return response;
 }
 
@@ -74,14 +80,17 @@ async function loadBuffer(name, signal) {
 function makeGeometry(decoded) {
   const geometry = new THREE.BufferGeometry();
   try {
-    for (const [name, { array, itemSize }] of Object.entries(decoded.attributes)) {
+    for (const [name, { array, itemSize }] of Object.entries(
+      decoded.attributes,
+    )) {
       if (name === "indices") {
         geometry.setIndex(new THREE.BufferAttribute(array, 1));
       } else if (name === "boneIndices" || name === "boneWeights") {
         // The source shader has two influences; native Three skinning needs four.
-        const expanded = name === "boneIndices"
-          ? new Uint16Array(decoded.count * 4)
-          : new Float32Array(decoded.count * 4);
+        const expanded =
+          name === "boneIndices"
+            ? new Uint16Array(decoded.count * 4)
+            : new Float32Array(decoded.count * 4);
         for (let i = 0; i < decoded.count; i++) {
           expanded[i * 4] = array[i * itemSize];
           expanded[i * 4 + 1] = array[i * itemSize + 1];
@@ -117,7 +126,9 @@ function trajectory(decoded) {
 
 function makeAnimationMatrices(animation) {
   if (animation.count !== BONE_COUNT * FRAME_COUNT) {
-    throw new Error(`Unexpected astronaut animation transform count: ${animation.count}`);
+    throw new Error(
+      `Unexpected astronaut animation transform count: ${animation.count}`,
+    );
   }
   const position = new THREE.Vector3();
   const orient = new THREE.Quaternion();
@@ -144,7 +155,7 @@ export async function loadOriginalAstronaut({ signal } = {}) {
   const textures = [];
   const bitmaps = [];
   const object = new THREE.Group();
-  object.name = "Lusion original astronaut";
+  object.name = "80degrees explorer";
   let skeleton;
   let animationMatrices;
   let disposed = false;
@@ -162,7 +173,10 @@ export async function loadOriginalAstronaut({ signal } = {}) {
   }
 
   async function loadTexture(part, kind) {
-    const response = await fetchAsset(`astronaut_${part}_${kind}.webp`, controller.signal);
+    const response = await fetchAsset(
+      `astronaut_${part}_${kind}.webp`,
+      controller.signal,
+    );
     const blob = await response.blob();
     controller.signal.throwIfAborted();
     // ImageBitmap ignores Texture.flipY; perform the standard GL vertical flip
@@ -181,7 +195,8 @@ export async function loadOriginalAstronaut({ signal } = {}) {
     textures.push(texture);
     texture.name = `astronaut_${part}_${kind}`;
     texture.flipY = false;
-    texture.colorSpace = kind === "base" ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+    texture.colorSpace =
+      kind === "base" ? THREE.SRGBColorSpace : THREE.NoColorSpace;
     texture.needsUpdate = true;
     return texture;
   }
@@ -189,21 +204,29 @@ export async function loadOriginalAstronaut({ signal } = {}) {
   const parts = ["helmet", "helmet_glass", "glove_shoes", "wearpack"];
   const bodyParts = ["helmet", "glove_shoes", "wearpack"];
   const geometryLoads = parts.map(async (part) => {
-    const geometry = await loadSceneGeometry(`astronaut_${part}`, controller.signal);
+    const geometry = await loadSceneGeometry(
+      `astronaut_${part}`,
+      controller.signal,
+    );
     geometries.push(geometry);
     return geometry;
   });
   const textureLoads = bodyParts.flatMap((part) =>
     ["base", "nor", "arm"].map((kind) => loadTexture(part, kind)),
   );
-  const bufferLoads = ["astronaut_animations", "astronaut_in_animation", "astronaut_out_animation"]
-    .map((name) => loadBuffer(name, controller.signal));
+  const bufferLoads = [
+    "astronaut_animations",
+    "astronaut_in_animation",
+    "astronaut_out_animation",
+  ].map((name) => loadBuffer(name, controller.signal));
   const pending = [...geometryLoads, ...textureLoads, ...bufferLoads];
 
   try {
     const loaded = await Promise.all(pending);
     controller.signal.throwIfAborted();
-    const [animation, entrance, exit] = loaded.slice(parts.length + textureLoads.length);
+    const [animation, entrance, exit] = loaded.slice(
+      parts.length + textureLoads.length,
+    );
     animationMatrices = makeAnimationMatrices(animation);
     const bones = Array.from({ length: BONE_COUNT }, (_, index) => {
       const bone = new THREE.Bone();
@@ -215,15 +238,45 @@ export async function loadOriginalAstronaut({ signal } = {}) {
       bone.matrixWorldAutoUpdate = false;
       return bone;
     });
-    skeleton = new THREE.Skeleton(bones, bones.map(() => new THREE.Matrix4()));
+    skeleton = new THREE.Skeleton(
+      bones,
+      bones.map(() => new THREE.Matrix4()),
+    );
     const identity = new THREE.Matrix4();
+    // A suit-space patch follows the baked skin deformation, unlike a floating
+    // plane attached to the group. Original texture maps remain unmodified.
+    const patchCanvas = document.createElement("canvas");
+    patchCanvas.width = 512;
+    patchCanvas.height = 256;
+    const ctx = patchCanvas.getContext("2d");
+    ctx.fillStyle = "#27241f";
+    ctx.fillRect(0, 0, 512, 256);
+    ctx.fillStyle = "#eb6a2b";
+    ctx.fillRect(0, 0, 12, 256);
+    ctx.strokeStyle = "#eb6a2b";
+    ctx.lineWidth = 15;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(76, 92, 40, Math.PI * 0.2, Math.PI * 1.8);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(121, 63, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#f6f3eb";
+    ctx.font = "600 104px sans-serif";
+    ctx.fillText("80°", 152, 125);
+    ctx.font = "500 36px sans-serif";
+    ctx.fillText("80degrees", 48, 211);
+    const patch = new THREE.CanvasTexture(patchCanvas);
+    patch.colorSpace = THREE.SRGBColorSpace;
+    textures.push(patch);
 
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
       let material;
       if (part === "helmet_glass") {
         material = new THREE.MeshPhysicalMaterial({
-          color: 0x111a23,
+          color: 0x211a14,
           metalness: 0.86,
           roughness: 0.12,
           clearcoat: 1,
@@ -233,7 +286,7 @@ export async function loadOriginalAstronaut({ signal } = {}) {
       } else {
         const textureOffset = parts.length + bodyParts.indexOf(part) * 3;
         material = new THREE.MeshStandardMaterial({
-          color: 0xffffff,
+          color: part === "glove_shoes" ? 0xe9c7a8 : 0xf6f3eb,
           map: loaded[textureOffset],
           normalMap: loaded[textureOffset + 1],
           aoMap: loaded[textureOffset + 2],
@@ -243,6 +296,31 @@ export async function loadOriginalAstronaut({ signal } = {}) {
           metalness: 1,
           envMapIntensity: 1.25,
         });
+      }
+      if (part === "wearpack") {
+        material.onBeforeCompile = (shader) => {
+          shader.uniforms.brandPatch = { value: patch };
+          shader.vertexShader =
+            "varying vec3 vSuitPosition;\n" + shader.vertexShader;
+          shader.vertexShader = shader.vertexShader.replace(
+            "#include <begin_vertex>",
+            "#include <begin_vertex>\nvSuitPosition = position;",
+          );
+          shader.fragmentShader =
+            "uniform sampler2D brandPatch; varying vec3 vSuitPosition;\n" +
+            shader.fragmentShader;
+          shader.fragmentShader = shader.fragmentShader.replace(
+            "#include <map_fragment>",
+            `
+            #include <map_fragment>
+            vec2 patchUV = (vSuitPosition.xy - vec2(-0.145, 1.355)) / vec2(0.29, 0.145);
+            float patchMask = step(0.0, patchUV.x) * step(patchUV.x, 1.0)
+              * step(0.0, patchUV.y) * step(patchUV.y, 1.0) * step(0.025, vSuitPosition.z);
+            vec3 patchColor = texture2D(brandPatch, clamp(patchUV, 0.0, 1.0)).rgb;
+            diffuseColor.rgb = mix(diffuseColor.rgb, patchColor, patchMask);
+          `,
+          );
+        };
       }
       materials.push(material);
       const mesh = new THREE.SkinnedMesh(loaded[i], material);
@@ -271,14 +349,19 @@ export async function loadOriginalAstronaut({ signal } = {}) {
           elements[element] = a + (b - a) * mix;
         }
       }
-      // Matrix lerp exactly reproduces lerping adjacent transformed positions;
-      // quaternion slerp would produce a different deformation. Updating the
-      // bones also keeps Three's automatic skeleton.update() render-safe.
+      // Preserve authored matrix interpolation within each clip and keep
+      // Three's automatic skeleton updates render-safe.
       skeleton.update();
     }
 
     update(0);
-    return { object, update, entrance: trajectory(entrance), exit: trajectory(exit), dispose };
+    return {
+      object,
+      update,
+      entrance: trajectory(entrance),
+      exit: trajectory(exit),
+      dispose,
+    };
   } catch (error) {
     controller.abort();
     // Finish in-flight decodes before cleanup so no late resource escapes it.
