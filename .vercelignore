@@ -1,5 +1,7 @@
 .80degrees_*
 .omp
+# Local attachments may contain confidential source material, not website assets.
+.crbn
 .git
 node_modules
 dist
