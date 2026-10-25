@@ -1,8 +1,7 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import {
   ArrowUpRight,
   ArrowDown,
-  ArrowRight,
   Plus,
   X,
   Menu,
@@ -18,71 +17,32 @@ import useScrollMotion from "./lib/useScrollMotion";
 import "./motion.css";
 const BrandScene = lazy(() => import("./components/BrandScene"));
 
-// These are authored design explorations, not customer projects or generated builds.
-// Photography is served locally from public/images; the brand sculpture is rendered live.
+// Actual captures of the linked deployments, served locally so the showcase
+// does not load three interactive WebGL applications into the landing page.
 const projects = [
   {
-    id: "forma",
-    name: "Forma",
-    category: "Websites",
-    type: "Architecture & interiors",
-    color: "forma",
-    description:
-      "A considered digital home for a contemporary architecture studio. Warm materials, editorial typography, and room for the work to breathe.",
-    prompt:
-      "An editorial website for an architecture studio. Warm neutrals, oversized typography, immersive project photography, and a simple project enquiry flow.",
-  },
-  {
-    id: "orbit",
-    name: "Orbit",
-    category: "Apps",
-    type: "Personal finance",
-    color: "orbit",
-    description:
-      "A calmer way to see your money. A focused dashboard brings spending, goals, and the bigger picture into one view.",
-    prompt:
-      "A personal finance dashboard with spending categories, monthly cash flow, savings goals, and a calm, accessible dark interface.",
-  },
-  {
-    id: "sonic",
-    name: "Sonic",
-    category: "Websites",
-    type: "Sound & culture",
-    color: "sonic",
-    description:
-      "An expressive storefront for people who live in sound. A bold product story, rich photography, and a warm, tactile palette.",
-    prompt:
-      "A bold storefront for a premium headphone brand. Warm yellow, expressive typography, product details, and a streamlined shopping experience.",
-  },
-  {
-    id: "terrain",
-    name: "Terrain",
-    category: "Assets",
-    type: "Outdoor brand direction",
-    color: "terrain",
-    description:
-      "An art direction for a life outside. Cinematic landscapes, restrained typography, and a visual language that invites exploration.",
-    prompt:
-      "An outdoor travel brand with cinematic mountain photography, forest green, editorial type, and an immersive destination discovery experience.",
-  },
-];
-
-// Live destinations supplied by the project owner; kept separate from concepts.
-const liveProjects = [
-  {
+    id: "abeto-messenger",
     name: "Abeto Messenger",
+    type: "Interactive world",
     url: "https://abeto-messenger.vercel.app",
-    host: "abeto-messenger.vercel.app",
+    preview: "/images/projects/abeto-messenger.webp",
+    alt: "Abeto Messenger's illustrated island and Messenger title",
   },
   {
+    id: "bruno",
     name: "Bruno",
+    type: "3D experience",
     url: "https://bruno-nine-wine.vercel.app",
-    host: "bruno-nine-wine.vercel.app",
+    preview: "/images/projects/bruno.webp",
+    alt: "Bruno's red off-road car beneath a glowing pink tree",
   },
   {
+    id: "igloo-recreation",
     name: "Igloo Recreation",
+    type: "Website recreation",
     url: "https://igloo-recreation-umber.vercel.app",
-    host: "igloo-recreation-umber.vercel.app",
+    preview: "/images/projects/igloo-recreation.webp",
+    alt: "Igloo Recreation's illuminated ice-block igloo in a snowy mountain landscape",
   },
 ];
 
@@ -105,144 +65,6 @@ function Mark({ className = "" }) {
   );
 }
 
-function ProjectVisual({ project }) {
-  if (project.id === "forma")
-    return (
-      <div className="project-art forma-art">
-        <div className="mini-site forma-site">
-          <div className="mini-nav">
-            <b>forma.</b>
-            <span>Spaces for living.</span>
-            <span>
-              MENU <Plus size={10} />
-            </span>
-          </div>
-          <div className="forma-title">
-            Good spaces.
-            <br />
-            <i>Better living.</i>
-          </div>
-          <img
-            src="/images/interior.webp"
-            alt="Sunlit architectural interior with natural materials"
-            loading="lazy"
-          />
-          <div className="mini-bottom">
-            <span>Architecture with a human perspective.</span>
-            <ArrowUpRight size={17} />
-          </div>
-        </div>
-      </div>
-    );
-  if (project.id === "orbit")
-    return (
-      <div className="project-art orbit-art">
-        <div className="orbit-site">
-          <aside>
-            <b>
-              <span className="orbit-symbol" /> orbit
-            </b>
-            <div className="mini-sidebar-active">Overview</div>
-            <div>Transactions</div>
-            <div>Accounts</div>
-            <div>Goals</div>
-            <small>YOUR SPACE, IN BALANCE</small>
-          </aside>
-          <div className="orbit-dashboard">
-            <div className="mini-nav">
-              <span>Your overview</span>
-              <span className="mini-avatar">J</span>
-            </div>
-            <p>Looking good, Jamie.</p>
-            <div className="balance-label">TOTAL BALANCE</div>
-            <div className="balance">
-              $24,680<span>.00</span>
-            </div>
-            <div className="chart-label">
-              <span>Cash flow</span>
-              <span>This month ↗</span>
-            </div>
-            <div className="chart-bars">
-              {[30, 45, 36, 55, 43, 64, 53, 74, 61, 83, 73, 98].map(
-                (height, index) => (
-                  <i key={index} style={{ height: `${height}%` }} />
-                ),
-              )}
-            </div>
-            <div className="mini-transactions">
-              <span>Recent activity</span>
-              <span>View all</span>
-            </div>
-            <div className="transaction">
-              <i>S</i>
-              <span>
-                Spotify<small>Entertainment</small>
-              </span>
-              <b>−$10.99</b>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  if (project.id === "sonic")
-    return (
-      <div className="project-art sonic-art">
-        <div className="sonic-site">
-          <div className="mini-nav">
-            <b>sonic®</b>
-            <span>Sound. Without limits.</span>
-            <span>
-              SHOP <ArrowUpRight size={10} />
-            </span>
-          </div>
-          <div className="sonic-headline">
-            LESS NOISE.
-            <br />
-            MORE <i>FEELING.</i>
-          </div>
-          <img
-            src="/images/headphones.webp"
-            alt="Premium headphones on a golden yellow background"
-            loading="lazy"
-          />
-          <div className="sonic-stamp">
-            TUNE INTO
-            <br />
-            YOUR WORLD <ArrowUpRight size={20} />
-          </div>
-        </div>
-      </div>
-    );
-  return (
-    <div className="project-art terrain-art">
-      <div className="terrain-site">
-        <img
-          src="/images/mountains.webp"
-          alt="Sunlight falling on a rugged mountain range"
-          loading="lazy"
-        />
-        <div className="mini-nav">
-          <b>terrain.</b>
-          <span>
-            Find your outside <ArrowUpRight size={10} />
-          </span>
-        </div>
-        <div className="terrain-title">
-          Somewhere
-          <br />
-          <i>less ordinary.</i>
-        </div>
-        <div className="terrain-bottom">
-          <span>GO FURTHER. FEEL MORE.</span>
-          <span className="tiny-circle">
-            <ArrowUpRight size={17} />
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
   const [intro, setIntro] = useState(
     () =>
@@ -251,14 +73,10 @@ export default function App() {
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [filter, setFilter] = useState("All builds");
-  const [selected, setSelected] = useState(null);
   const [step, setStep] = useState(0);
   const [idea, setIdea] = useState("");
   const [projectType, setProjectType] = useState("Website");
   const [downloaded, setDownloaded] = useState(false);
-  const dialog = useRef(null);
-  const ideaInput = useRef(null);
   const app = useRef(null);
   const steps = [
     {
@@ -286,34 +104,6 @@ export default function App() {
 
   useScrollMotion(app);
 
-  useEffect(() => {
-    if (selected) {
-      dialog.current.showModal();
-      document.body.style.overflow = "hidden";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [selected]);
-
-  const closeProject = () => {
-    dialog.current?.close();
-    setSelected(null);
-  };
-  const useDirection = (project) => {
-    setIdea(project.prompt);
-    setDownloaded(false);
-    setProjectType(
-      project.category === "Apps"
-        ? "App"
-        : project.category === "Assets"
-          ? "Brand & assets"
-          : "Website",
-    );
-    closeProject();
-    document.getElementById("create").scrollIntoView({ behavior: "smooth" });
-    ideaInput.current.focus({ preventScroll: true });
-  };
   const downloadBrief = (event) => {
     event.preventDefault();
     const content = `80degrees — Creative brief\n\nProject type: ${projectType}\n\nThe idea\n${idea.trim()}\n\nNext steps\n1. Define your audience and the one thing they should do.\n2. Gather your content, brand assets, and visual references.\n3. Outline the key pages or screens.\n4. Build, review, refine, and launch.\n\nCreated with the 80degrees idea planner.\n`;
@@ -481,87 +271,49 @@ export default function App() {
                 <span className="serif">Made possible.</span>
               </h2>
               <p>
-                Different ideas. Entirely different worlds.
-                <br />A look at the possibilities, from first spark to full
-                picture.
+                Three live projects. Three different worlds.
+                <br />
+                Select a preview to explore the site in a new tab.
               </p>
             </div>
-            <div
-              className="live-projects"
-              aria-labelledby="live-projects-title"
-            >
-              <div className="live-projects-heading">
-                <h3 id="live-projects-title">Live projects</h3>
-                <p>Explore the live sites. Each opens in a new tab.</p>
-              </div>
-              <ul className="live-projects-list">
-                {liveProjects.map((project) => (
-                  <li key={project.url}>
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="live-project-name">{project.name}</span>
-                      <span className="live-project-host">{project.host}</span>
-                      <ArrowUpRight size={22} aria-hidden="true" />
-                      <span className="sr-only">
-                        Open live project in a new tab
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
             <div className="build-toolbar">
-              <div className="filters" aria-label="Filter concept builds">
-                {["All builds", "Websites", "Apps", "Assets"].map((item) => (
-                  <button
-                    key={item}
-                    className={filter === item ? "active" : ""}
-                    aria-pressed={filter === item}
-                    onClick={() => setFilter(item)}
-                  >
-                    {item}
-                    {item === "All builds" && <span>04</span>}
-                  </button>
-                ))}
-              </div>
-              <span className="concept-label">
-                CONCEPT EXPLORATIONS <span />
-              </span>
+              <h3>Live projects</h3>
+              <p>Actual sites. Ready to explore.</p>
             </div>
             <div className="projects-grid">
-              {projects
-                .filter(
-                  (project) =>
-                    filter === "All builds" || project.category === filter,
-                )
-                .map((project) => (
-                  <button
-                    key={project.id}
-                    className="project-card"
-                    onClick={() => setSelected(project)}
-                    aria-label={`Explore ${project.name} concept`}
-                  >
-                    <div className="project-image">
-                      <ProjectVisual project={project} />
-                      <span className="project-open">
-                        <ArrowUpRight size={21} />
-                      </span>
-                      <span className="project-hover-text">
-                        Take a closer look
-                      </span>
+              {projects.map((project) => (
+                <a
+                  key={project.id}
+                  className="project-card"
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit ${project.name} live site (opens in a new tab)`}
+                >
+                  <div className="project-image">
+                    <img
+                      className="project-art"
+                      src={project.preview}
+                      alt={project.alt}
+                      width="1024"
+                      height="711"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span className="project-open" aria-hidden="true">
+                      <ArrowUpRight size={21} />
+                    </span>
+                    <span className="project-hover-text">Visit live site</span>
+                  </div>
+                  <div className="project-meta">
+                    <div>
+                      <h3>{project.name}</h3>
+                      <span>{project.type}</span>
                     </div>
-                    <div className="project-meta">
-                      <div>
-                        <h3>{project.name}</h3>
-                        <span>{project.type}</span>
-                      </div>
-                      <span className="category-tag">{project.category}</span>
-                    </div>
-                  </button>
-                ))}
+                    <span className="category-tag">Live site</span>
+                  </div>
+                </a>
+              ))}
             </div>
             <div className="builds-foot">
               <span>One starting point. Endless directions.</span>
@@ -706,7 +458,6 @@ export default function App() {
                 Describe your idea
               </label>
               <textarea
-                ref={ideaInput}
                 id="idea"
                 value={idea}
                 onChange={(event) => {
@@ -766,53 +517,6 @@ export default function App() {
             </a>
           </div>
         </footer>
-        <dialog
-          ref={dialog}
-          className="project-dialog"
-          aria-label={
-            selected ? `${selected.name} concept preview` : "Concept preview"
-          }
-          onCancel={closeProject}
-          onClick={(event) => {
-            if (event.target === event.currentTarget) closeProject();
-          }}
-        >
-          {selected && (
-            <div className="dialog-content">
-              <div className="dialog-top">
-                <span>
-                  CONCEPT EXPLORATION / {selected.category.toUpperCase()}
-                </span>
-                <button
-                  onClick={closeProject}
-                  aria-label="Close project preview"
-                >
-                  <X size={23} />
-                </button>
-              </div>
-              <ProjectVisual project={selected} />
-              <div className="dialog-details">
-                <div>
-                  <h2>
-                    {selected.name}
-                    <ArrowUpRight />
-                  </h2>
-                  <p>{selected.description}</p>
-                  <small>
-                    Illustrative design concept, not a published customer
-                    project.
-                  </small>
-                </div>
-                <button
-                  className="button button-rust"
-                  onClick={() => useDirection(selected)}
-                >
-                  Use this direction <ArrowRight size={17} />
-                </button>
-              </div>
-            </div>
-          )}
-        </dialog>
       </div>
     </>
   );

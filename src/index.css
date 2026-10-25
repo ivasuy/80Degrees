@@ -3,7 +3,7 @@
 
 /* Shared landing palette: rust supports readable actions on ivory; orange is
    the brighter brand/3D accent. Night pairs with on-dark text for the story and
-   footer. Authored showcase previews retain their independent project palettes. */
+   footer. Live-site screenshot previews retain each project's original palette. */
 :root {
   font-family: "DM Sans", sans-serif;
   color: var(--ink);
@@ -515,82 +515,6 @@ h2 .serif {
   padding-top: 111px;
   padding-bottom: 78px;
 }
-.live-projects {
-  margin-bottom: 64px;
-}
-.live-projects-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px 32px;
-  margin-bottom: 24px;
-}
-.live-projects-heading h3 {
-  font:
-    600 26px/1.2 "Manrope",
-    sans-serif;
-  letter-spacing: -0.03em;
-}
-.live-projects-heading p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
-.live-projects-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.live-projects-list li {
-  border-top: 1px solid var(--line);
-}
-.live-projects-list li:last-child {
-  border-bottom: 1px solid var(--line);
-}
-.live-projects-list a {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 16px;
-  min-height: 88px;
-  padding: 20px 8px;
-  transition:
-    color 180ms ease,
-    background-color 180ms ease;
-}
-.live-project-name {
-  font:
-    550 clamp(18px, 2vw, 24px)/1.4 "Manrope",
-    sans-serif;
-  letter-spacing: -0.02em;
-}
-.live-project-host {
-  color: var(--muted);
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-.live-projects-list a > svg {
-  color: var(--rust);
-}
-.live-projects-list a:hover {
-  color: var(--rust);
-  background: var(--surface);
-}
-@media (max-width: 640px) {
-  .live-projects-list a {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 6px 16px;
-  }
-  .live-project-host {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .live-projects-list a > svg {
-    grid-column: 2;
-    grid-row: 1 / 3;
-  }
-}
 .section-heading {
   display: flex;
   align-items: flex-end;
@@ -609,49 +533,20 @@ h2 .serif {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
   margin-bottom: 29px;
 }
-.filters {
-  display: flex;
-  gap: 7px;
+.build-toolbar h3 {
+  font:
+    600 20px/1.4 "Manrope",
+    sans-serif;
+  letter-spacing: -0.02em;
 }
-.filters > button {
-  padding: 9px 17px;
-  border-radius: 30px;
-  background: transparent;
+.build-toolbar > p {
+  font-size: 12px;
   color: var(--muted);
-  font-size: 11px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  transition:
-    background 0.25s,
-    color 0.25s;
-}
-.filters > button.active {
-  background: var(--ink);
-  color: var(--paper);
-}
-.filters > button:not(.active):hover {
-  background: var(--surface);
-}
-.filters > button > span {
-  font-size: 9px;
-  opacity: 0.8;
-}
-.concept-label {
-  font-size: 8px;
-  letter-spacing: 1.3px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.concept-label > span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--orange);
+  line-height: 1.6;
 }
 .projects-grid {
   display: grid;
@@ -669,20 +564,18 @@ h2 .serif {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 1.43;
+  aspect-ratio: 1.44;
   isolation: isolate;
 }
 .project-art {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+  display: block;
+  object-fit: cover;
   transition: transform 1s var(--ease);
 }
-.project-card:hover .project-art {
+.project-card:hover .project-art,
+.project-card:focus-visible .project-art {
   transform: scale(1.035);
 }
 .project-open {
@@ -701,7 +594,8 @@ h2 .serif {
     color 0.3s,
     transform 0.4s var(--ease);
 }
-.project-card:hover .project-open {
+.project-card:hover .project-open,
+.project-card:focus-visible .project-open {
   background: var(--rust);
   color: var(--paper);
   transform: rotate(45deg);
@@ -721,7 +615,8 @@ h2 .serif {
     transform 0.3s;
   z-index: 3;
 }
-.project-card:hover .project-hover-text {
+.project-card:hover .project-hover-text,
+.project-card:focus-visible .project-hover-text {
   opacity: 1;
   transform: translateX(0);
 }
@@ -729,12 +624,14 @@ h2 .serif {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   padding-top: 17px;
 }
 .project-meta > div {
   display: flex;
-  align-items: center;
-  gap: 17px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 .project-meta h3 {
   font-family: "Manrope", sans-serif;
@@ -752,325 +649,7 @@ h2 .serif {
   border-radius: 20px;
   padding: 5px 10px;
   color: var(--muted);
-}
-.mini-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 6px;
-}
-.mini-nav > span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.mini-nav > b {
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -1px;
-}
-.forma-art {
-  background: #ded9cd;
-  padding: 8% 9% 0;
-}
-.mini-site {
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 17px 40px #32281b1a;
-}
-.forma-site {
-  background: #faf9f4;
-  padding: 6% 6% 0;
-  transform: rotate(-5deg) translateY(13px);
-  transform-origin: 50% 75%;
-  height: 111%;
-}
-.forma-title {
-  font-family: "Instrument Serif", serif;
-  font-size: clamp(29px, 3.25vw, 48px);
-  line-height: 0.95;
-  letter-spacing: -1.3px;
-  margin: 8% 0 6%;
-  position: relative;
-  z-index: 1;
-}
-.forma-title i {
-  font-weight: 400;
-}
-.forma-site img {
-  width: 100%;
-  height: 45%;
-  object-fit: cover;
-  display: block;
-}
-.mini-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 5px;
-  padding-top: 9px;
-}
-.orbit-art {
-  background: #c3c7ba;
-  padding: 10% 4% 9% 8%;
-}
-.orbit-site {
-  display: flex;
-  color: #eeeee5;
-  background: #242822;
-  border-radius: 7px;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 15px 30px #20291830;
-  transform: rotate(5deg);
-  overflow: hidden;
-}
-.orbit-site > aside {
-  width: 26%;
-  background: #20241f;
-  padding: 7% 4%;
-  position: relative;
-  font-size: 6px;
-  color: #a4ac9f;
-}
-.orbit-site > aside > b {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #f0f1e6;
-  font-size: 15px;
-  letter-spacing: -0.5px;
-  font-weight: 500;
-  margin-bottom: 24px;
-}
-.orbit-symbol {
-  display: inline-block;
-  width: 13px;
-  height: 13px;
-  border: 3px solid #c8e78a;
-  border-radius: 50%;
-}
-.orbit-site > aside > div {
-  padding: 7px 8px;
-  margin: 4px -2px;
-}
-.mini-sidebar-active {
-  background: #343b2b;
-  border-radius: 3px;
-  color: #c8e78a;
-}
-.orbit-site > aside > small {
-  position: absolute;
-  bottom: 20px;
-  left: 17%;
-  font-size: 4px;
-  letter-spacing: 0.7px;
-}
-.orbit-dashboard {
-  padding: 5% 6%;
-  width: 74%;
-}
-.orbit-dashboard > .mini-nav {
-  font-size: 5px;
-  color: #b7bfaf;
-}
-.mini-avatar {
-  border-radius: 50%;
-  background: #e2d3b0;
-  width: 15px;
-  height: 15px;
-  justify-content: center;
-  color: #303126;
-}
-.orbit-dashboard > p {
-  font-size: 12px;
-  margin: 13px 0 14px;
-}
-.balance-label {
-  font-size: 4px;
-  letter-spacing: 1px;
-  color: #a5ad9e;
-}
-.balance {
-  font-size: 26px;
-  letter-spacing: -0.7px;
-  margin-top: 5px;
-}
-.balance > span {
-  font-size: 16px;
-  color: #7d8975;
-}
-.chart-label {
-  margin-top: 16px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 5px;
-}
-.chart-label > span:last-child {
-  color: #98a28f;
-}
-.chart-bars {
-  height: 62px;
-  display: flex;
-  align-items: flex-end;
-  gap: 5%;
-  margin-top: 13px;
-}
-.chart-bars > i {
-  flex: 1;
-  background: #a7bf81;
-  border-radius: 2px 2px 0 0;
-}
-.chart-bars > i:nth-child(3n) {
-  background: #667b4e;
-}
-.mini-transactions {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 15px;
-  margin-top: 12px;
-  border-top: 1px solid #3f4438;
-  font-size: 5px;
-}
-.transaction {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  font-size: 5px;
-}
-.transaction > i {
-  display: grid;
-  place-items: center;
-  font-style: normal;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  background: #4b6836;
-  color: #d4e5bd;
-}
-.transaction small {
-  display: block;
-  font-size: 4px;
-  color: #919d85;
-  margin-top: 2px;
-}
-.transaction > b {
-  margin-left: auto;
-  font-weight: 400;
-}
-.sonic-art {
-  background: #e5b149;
-  padding: 8% 8% 0;
-}
-.sonic-site {
-  height: 108%;
-  width: 100%;
-  background: #f5c84c;
-  padding: 6%;
-  transform: rotate(4deg);
-  box-shadow: 0 20px 35px #5e401722;
-  position: relative;
-}
-.sonic-site > .mini-nav {
-  position: relative;
-  z-index: 2;
-}
-.sonic-site > .mini-nav > b {
-  font-size: 18px;
-  font-weight: 700;
-}
-.sonic-headline {
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(24px, 2.9vw, 43px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -1.7px;
-  margin-top: 12%;
-  position: relative;
-  z-index: 2;
-}
-.sonic-headline i {
-  font-family: "Instrument Serif", serif;
-  font-weight: 400;
-}
-.sonic-site > img {
-  width: 79%;
-  height: 68%;
-  object-fit: cover;
-  position: absolute;
-  bottom: -1%;
-  right: -1%;
-  mix-blend-mode: multiply;
-}
-.sonic-stamp {
-  font-size: 6px;
-  position: absolute;
-  bottom: 14%;
-  left: 6%;
-  line-height: 1.4;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.terrain-art {
-  background: #a3b1aa;
-  padding: 8%;
-}
-.terrain-site {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding: 6%;
-  color: #f6f4e9;
-  transform: rotate(-4deg);
-  box-shadow: 0 18px 35px #1e34262b;
-  isolation: isolate;
-}
-.terrain-site:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #10272345;
-  z-index: -1;
-}
-.terrain-site > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
-}
-.terrain-site > .mini-nav > b {
-  font-size: 18px;
-}
-.terrain-title {
-  font-family: "Instrument Serif", serif;
-  font-size: clamp(30px, 3.5vw, 53px);
-  line-height: 0.96;
-  letter-spacing: -1px;
-  margin-top: 16%;
-}
-.terrain-bottom {
-  position: absolute;
-  bottom: 8%;
-  left: 6%;
-  right: 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 5px;
-  letter-spacing: 1px;
-}
-.tiny-circle {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ffffff70;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
+  flex-shrink: 0;
 }
 .builds-foot {
   margin-top: 52px;
@@ -1490,88 +1069,6 @@ h2 .serif {
   align-items: center;
   gap: 10px;
 }
-.project-dialog {
-  width: min(900px, 90vw);
-  max-height: 90svh;
-  padding: 0;
-  border: 0;
-  background: var(--paper);
-  color: var(--ink);
-  border-radius: 14px;
-  overflow: auto;
-  box-shadow: 0 30px 90px color-mix(in srgb, var(--night) 32%, transparent);
-  margin: auto;
-}
-.project-dialog::backdrop {
-  background: color-mix(in srgb, var(--night) 80%, transparent);
-  backdrop-filter: blur(6px);
-}
-.dialog-content {
-  padding: 26px;
-}
-.dialog-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 22px;
-  font-size: 9px;
-  letter-spacing: 1.2px;
-  color: var(--muted);
-}
-.dialog-top > button {
-  background: transparent;
-  padding: 4px;
-}
-.dialog-content > .project-art {
-  height: 440px;
-  border-radius: 8px;
-}
-.dialog-content .mini-site,
-.dialog-content .orbit-site,
-.dialog-content .sonic-site,
-.dialog-content .terrain-site {
-  max-width: 580px;
-}
-.dialog-content .forma-title {
-  font-size: 52px;
-}
-.dialog-content .sonic-headline {
-  font-size: 50px;
-}
-.dialog-content .terrain-title {
-  font-size: 59px;
-}
-.dialog-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
-  margin-top: 28px;
-}
-.dialog-details h2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 32px;
-}
-.dialog-details p {
-  font-size: 12px;
-  line-height: 1.8;
-  margin-top: 12px;
-  max-width: 470px;
-  color: var(--muted);
-}
-.dialog-details small {
-  display: block;
-  font-size: 9px;
-  margin-top: 12px;
-  color: var(--muted);
-}
-.dialog-details > .button {
-  font-size: 11px;
-  gap: 15px;
-  flex-shrink: 0;
-}
 [data-reveal] {
   transition:
     transform 1s var(--ease),
@@ -1676,30 +1173,6 @@ h2 .serif {
   }
   .process h2 {
     font-size: 36px;
-  }
-  .sonic-headline {
-    font-size: 3vw;
-  }
-  .orbit-dashboard > p {
-    margin: 8px 0;
-    font-size: 10px;
-  }
-  .balance {
-    font-size: 22px;
-  }
-  .chart-label {
-    margin-top: 10px;
-  }
-  .chart-bars {
-    height: 50px;
-    margin-top: 9px;
-  }
-  .mini-transactions {
-    margin-top: 7px;
-    padding-top: 8px;
-  }
-  .orbit-site > aside > b {
-    margin-bottom: 13px;
   }
   .footer-wordmark {
     gap: 15px;
@@ -1899,23 +1372,9 @@ h2 .serif {
   .build-toolbar {
     margin-bottom: 23px;
   }
-  .filters {
-    gap: 2px;
-  }
-  .filters > button {
-    font-size: 10px;
-    padding: 8px 12px;
-    gap: 7px;
-  }
-  .concept-label {
-    display: none;
-  }
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 31px;
-  }
-  .project-image {
-    aspect-ratio: 1.3;
   }
   .project-meta {
     padding-top: 14px;
@@ -1924,57 +1383,13 @@ h2 .serif {
     font-size: 17px;
   }
   .project-meta > div {
-    gap: 13px;
+    gap: 6px;
   }
   .project-meta > div > span {
     font-size: 10px;
   }
   .category-tag {
     font-size: 8px;
-  }
-  .forma-title {
-    font-size: 9vw;
-  }
-  .sonic-headline {
-    font-size: 7.9vw;
-  }
-  .terrain-title {
-    font-size: 10vw;
-  }
-  .orbit-site > aside {
-    font-size: 7px;
-  }
-  .orbit-site > aside > b {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  .orbit-dashboard > p {
-    font-size: 12px;
-    margin: 15px 0;
-  }
-  .balance {
-    font-size: 28px;
-  }
-  .balance-label {
-    font-size: 5px;
-  }
-  .chart-label {
-    font-size: 6px;
-    margin-top: 17px;
-  }
-  .chart-bars {
-    height: 65px;
-    margin-top: 13px;
-  }
-  .mini-transactions {
-    margin-top: 14px;
-    font-size: 6px;
-  }
-  .transaction {
-    font-size: 6px;
-  }
-  .transaction small {
-    font-size: 5px;
   }
   .builds-foot {
     margin-top: 35px;
@@ -2123,56 +1538,6 @@ h2 .serif {
     width: 100%;
     letter-spacing: 1px;
   }
-  .project-dialog {
-    width: 94vw;
-    max-height: 90svh;
-  }
-  .dialog-content {
-    padding: 16px;
-  }
-  .dialog-top {
-    font-size: 7px;
-    letter-spacing: 0.8px;
-    margin-bottom: 16px;
-  }
-  .dialog-content > .project-art {
-    height: 310px;
-  }
-  .dialog-content .forma-title {
-    font-size: 34px;
-  }
-  .dialog-content .sonic-headline {
-    font-size: 30px;
-  }
-  .dialog-content .terrain-title {
-    font-size: 38px;
-  }
-  .dialog-details {
-    display: block;
-    margin-top: 21px;
-  }
-  .dialog-details h2 {
-    font-size: 28px;
-  }
-  .dialog-details p {
-    font-size: 11px;
-  }
-  .dialog-details > .button {
-    margin-top: 20px;
-    min-height: 42px;
-  }
-  .dialog-details small {
-    font-size: 8px;
-  }
-  .dialog-content .orbit-dashboard > p {
-    margin: 9px 0;
-  }
-  .dialog-content .balance {
-    font-size: 23px;
-  }
-  .dialog-content .chart-bars {
-    height: 50px;
-  }
   .project-hover-text {
     display: none;
   }
@@ -2213,15 +1578,6 @@ h2 .serif {
   .project-meta > div > span {
     font-size: 8px;
   }
-  .orbit-dashboard > p {
-    margin: 10px 0;
-  }
-  .chart-bars {
-    height: 48px;
-  }
-  .balance {
-    font-size: 23px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2239,36 +1595,5 @@ h2 .serif {
   }
   .brand-scene {
     cursor: default;
-  }
-}
-
-/* Miniature previews keep their internal layout compact on small screens. */
-@media (max-width: 760px) {
-  .orbit-dashboard > p {
-    font-size: 10px;
-    margin: 9px 0 10px;
-  }
-  .orbit-dashboard .balance {
-    font-size: 23px;
-  }
-  .orbit-dashboard .chart-label {
-    margin-top: 10px;
-    font-size: 5px;
-  }
-  .orbit-dashboard .chart-bars {
-    height: 44px;
-    margin-top: 8px;
-  }
-  .orbit-dashboard .mini-transactions {
-    margin-top: 9px;
-    padding-top: 8px;
-    font-size: 5px;
-  }
-  .orbit-dashboard .transaction {
-    font-size: 5px;
-    margin-top: 6px;
-  }
-  .orbit-dashboard .transaction small {
-    font-size: 4px;
   }
 }
