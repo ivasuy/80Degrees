@@ -474,7 +474,7 @@ export async function loadOriginalTunnels(signal) {
     dark,
     bright,
     monitor,
-    screenMaterial,
+    screen,
     glass,
     debris,
     update,

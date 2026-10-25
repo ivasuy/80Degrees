@@ -67,6 +67,25 @@ const projects = [
   },
 ];
 
+// Live destinations supplied by the project owner; kept separate from concepts.
+const liveProjects = [
+  {
+    name: "Abeto Messenger",
+    url: "https://abeto-messenger.vercel.app",
+    host: "abeto-messenger.vercel.app",
+  },
+  {
+    name: "Bruno",
+    url: "https://bruno-nine-wine.vercel.app",
+    host: "bruno-nine-wine.vercel.app",
+  },
+  {
+    name: "Igloo Recreation",
+    url: "https://igloo-recreation-umber.vercel.app",
+    host: "igloo-recreation-umber.vercel.app",
+  },
+];
+
 function Mark({ className = "" }) {
   return (
     <svg
@@ -466,6 +485,33 @@ export default function App() {
                 <br />A look at the possibilities, from first spark to full
                 picture.
               </p>
+            </div>
+            <div
+              className="live-projects"
+              aria-labelledby="live-projects-title"
+            >
+              <div className="live-projects-heading">
+                <h3 id="live-projects-title">Live projects</h3>
+                <p>Explore the live sites. Each opens in a new tab.</p>
+              </div>
+              <ul className="live-projects-list">
+                {liveProjects.map((project) => (
+                  <li key={project.url}>
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="live-project-name">{project.name}</span>
+                      <span className="live-project-host">{project.host}</span>
+                      <ArrowUpRight size={22} aria-hidden="true" />
+                      <span className="sr-only">
+                        Open live project in a new tab
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="build-toolbar">
               <div className="filters" aria-label="Filter concept builds">

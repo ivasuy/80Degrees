@@ -5,6 +5,7 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { frameCorners } from "three/addons/utils/CameraUtils.js";
 import { loadOriginalAstronaut } from "../lib/originalAstronaut";
 import { loadOriginalTunnels } from "../lib/originalTunnels";
 
@@ -56,6 +57,10 @@ export default function SpaceScene({ progress, paused, reduced }) {
     scene.fog = new THREE.FogExp2(night, 0.009);
     const camera = new THREE.PerspectiveCamera(45, 1, 0.08, 300);
     camera.position.set(0, 0, 25);
+    const screenCamera = camera.clone();
+    const screenBottomLeft = new THREE.Vector3();
+    const screenBottomRight = new THREE.Vector3();
+    const screenTopLeft = new THREE.Vector3();
     const room = new RoomEnvironment();
     const pmrem = new THREE.PMREMGenerator(renderer);
     const environment = pmrem.fromScene(room, 0.04);
@@ -78,7 +83,7 @@ export default function SpaceScene({ progress, paused, reduced }) {
     composer.addPass(renderPass);
     composer.addPass(bloom);
     composer.addPass(output);
-    const screenTarget = new THREE.WebGLRenderTarget(960, 540, {
+    const screenTarget = new THREE.WebGLRenderTarget(1, 1, {
       type: THREE.HalfFloatType,
     });
 
@@ -159,7 +164,8 @@ export default function SpaceScene({ progress, paused, reduced }) {
         tunnels.glass,
         tunnels.debris,
       );
-      tunnels.screenMaterial.map = screenTarget.texture;
+      tunnels.screen.material.map = screenTarget.texture;
+      resize();
       for (let i = 0; i < 6; i++) {
         const echo = astronaut.object.clone(true);
         echo.visible = false;
@@ -218,14 +224,33 @@ export default function SpaceScene({ progress, paused, reduced }) {
     let mobile = false;
     let needsRender = true;
     const resize = () => {
-      const { width, height } = container.getBoundingClientRect();
+      // Use layout dimensions, not a transformed preview's bounding rectangle.
+      const width = container.clientWidth;
+      const height = container.clientHeight;
       if (!width || !height) return;
       mobile = width < 760;
-      renderer.setSize(width, height);
+      const pixelRatio = Math.min(devicePixelRatio, mobile ? 1 : 1.25);
+      if (renderer.getPixelRatio() !== pixelRatio) {
+        renderer.setPixelRatio(pixelRatio);
+        composer.setPixelRatio(pixelRatio);
+      }
+      renderer.setSize(width, height, false);
       composer.setSize(width, height);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      screenTarget.setSize(Math.min(width, 960), Math.min(height, 600));
+      if (tunnels) {
+        const surface = tunnels.screen.geometry.parameters;
+        screenCamera.aspect = surface.width / surface.height;
+        const targetWidth = Math.min(
+          960,
+          Math.ceil(Math.max(width, height * screenCamera.aspect)),
+        );
+        screenTarget.setSize(
+          targetWidth,
+          Math.round(targetWidth / screenCamera.aspect),
+        );
+        screenCamera.updateProjectionMatrix();
+      }
       needsRender = true;
     };
     let visible = false;
@@ -377,8 +402,30 @@ export default function SpaceScene({ progress, paused, reduced }) {
         tunnels.monitor.visible = false;
         tunnels.glass.visible = false;
         tunnels.debris.visible = false;
+        // Treat the monitor as a window into the scene. Framing its world-space
+        // corners preserves perspective at every viewport ratio and keeps the
+        // on-screen astronaut aligned with the real mesh during emergence.
+        const screen = tunnels.screen;
+        const { width, height } = screen.geometry.parameters;
+        screen.updateWorldMatrix(true, false);
+        screenBottomLeft
+          .set(-width / 2, -height / 2, 0)
+          .applyMatrix4(screen.matrixWorld);
+        screenBottomRight
+          .set(width / 2, -height / 2, 0)
+          .applyMatrix4(screen.matrixWorld);
+        screenTopLeft
+          .set(-width / 2, height / 2, 0)
+          .applyMatrix4(screen.matrixWorld);
+        screenCamera.position.copy(camera.position);
+        frameCorners(
+          screenCamera,
+          screenBottomLeft,
+          screenBottomRight,
+          screenTopLeft,
+        );
         renderer.setRenderTarget(screenTarget);
-        renderer.render(scene, camera);
+        renderer.render(scene, screenCamera);
         renderer.setRenderTarget(null);
         tunnels.bright.visible = false;
         tunnels.monitor.visible = true;
