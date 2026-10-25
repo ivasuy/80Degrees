@@ -851,6 +851,7 @@ h2 .serif {
 .contact h2 {
   font-size: clamp(28px, 3vw, 40px);
   line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 .contact p {
   max-width: 52ch;
