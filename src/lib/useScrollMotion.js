@@ -31,7 +31,7 @@ export default function useScrollMotion(rootRef) {
     );
     root
       .querySelectorAll(
-        "[data-reveal], .process-copy, .create-heading, .idea-form",
+        "[data-reveal], .process-copy",
       )
       .forEach((element) => observer.observe(element));
 

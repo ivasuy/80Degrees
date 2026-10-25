@@ -1,4 +1,4 @@
-// Local API: waitlist signups use the same private storage service as api/waitlist.js.
+// Local API: waitlist signups use the same Formspree handler as api/waitlist.js.
 // The unrelated starter item routes below remain in-memory.
 import express from 'express';
 import cors from 'cors';

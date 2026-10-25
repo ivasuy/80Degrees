@@ -1,5 +1,4 @@
-import { createHash } from "node:crypto";
-import { put, head } from "@vercel/blob";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdeeazvn";
 
 const reply = (body, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -22,40 +21,56 @@ export async function joinWaitlist(input) {
     );
   }
 
-  // Private, immutable records: concurrent/repeated signups cannot overwrite the
-  // original consent timestamp. Email addresses never appear in object paths.
-  // Production and development use separate stores connected in Vercel.
-  const key = createHash("sha256").update(email).digest("hex");
-  const pathname = `waitlist/${key}.json`;
+  // Both /api/waitlist adapters use this Formspree endpoint; there is no local
+  // or Blob fallback. Formspree's JSON success contract includes `next`.
   try {
-    await put(
-      pathname,
-      JSON.stringify({
-        email,
-        joinedAt: new Date().toISOString(),
-        consent: "80degrees launch updates",
-        emailVerified: false,
-      }),
-      {
-        access: "private",
-        addRandomSuffix: false,
-        allowOverwrite: false,
-        contentType: "application/json",
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-    );
-  } catch (error) {
-    // Blob has no typed duplicate-key error. Confirm the saved record exists;
-    // do not mistake an unavailable store or failed write for a successful signup.
-    try {
-      await head(pathname);
-    } catch {
-      console.error("Waitlist storage failed", { name: error.name });
+      body: JSON.stringify({
+        email,
+        consent: "Email me about the 80degrees launch.",
+        consentGiven: true,
+        consentAt: new Date().toISOString(),
+      }),
+      redirect: "error",
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (response.status === 429) {
+      return reply(
+        { error: "Signups are busy right now. Please try again in a few minutes." },
+        429,
+      );
+    }
+    if (!response.ok) {
       return reply(
         { error: "We couldn’t save your signup. Please try again shortly." },
         503,
       );
     }
+
+    const data = await response.json();
+    if (
+      !data ||
+      typeof data.next !== "string" ||
+      "error" in data ||
+      "errors" in data
+    ) {
+      return reply(
+        { error: "We couldn’t confirm your signup. Please try again shortly." },
+        503,
+      );
+    }
+  } catch {
+    // Never expose or log email addresses, upstream responses, or request errors.
+    return reply(
+      { error: "We couldn’t confirm your signup. Please try again shortly." },
+      503,
+    );
   }
-  // Identical response for new and existing entries avoids disclosing membership.
   return reply({ success: true });
 }

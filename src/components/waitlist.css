@@ -54,13 +54,6 @@
   padding-top: 32px;
   border-top: 1px solid color-mix(in srgb, var(--on-dark) 45%, transparent);
 }
-.waitlist-form-title {
-  font:
-    500 clamp(21px, 2vw, 28px)/1.35 "Manrope",
-    sans-serif;
-  letter-spacing: -0.025em;
-  margin: 0 0 28px;
-}
 .waitlist-email-label {
   display: block;
   font-size: 13px;

@@ -7,9 +7,7 @@ import {
   Menu,
   Pause,
   Play,
-  Check,
   Sparkles,
-  Download,
 } from "lucide-react";
 import IntroSequence from "./components/IntroSequence";
 import ScrollStory from "./components/ScrollStory";
@@ -79,49 +77,29 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [paused, setPaused] = useState(false);
   const [step, setStep] = useState(0);
-  const [idea, setIdea] = useState("");
-  const [projectType, setProjectType] = useState("Website");
-  const [downloaded, setDownloaded] = useState(false);
   const app = useRef(null);
   const steps = [
     {
       title: "Describe what you need.",
-      text: "Tell 80degrees what you want to build and who it’s for. Plain English is enough to get started.",
+      text: "Tell 80degrees what you want to build and who it’s for. Plain English is enough.",
       input: "Build a booking app for my pottery studio.",
       status: "Your starting point",
-      tag: "Start with the problem, not the code.",
     },
     {
       title: "Let the agents build.",
-      text: "Engineering agents plan the work, write the code, run it, test it, and debug on your own machine.",
+      text: "Agents plan, code, test, and debug on your own machine.",
       input: "Plan the screens. Build booking. Test the flow.",
       status: "The engineering work",
-      tag: "From a plan to working code.",
     },
     {
       title: "Try it. Refine it. Ship it.",
-      text: "Review the result, ask for changes, and let the agents help you ship. Your feedback shapes the product.",
+      text: "Try the result, ask for changes, and let the agents help you ship.",
       input: "Let customers choose a class and reserve a seat.",
       status: "Your next refinement",
-      tag: "Keep building on your own machine.",
     },
   ];
 
   useScrollMotion(app);
-
-  const downloadBrief = (event) => {
-    event.preventDefault();
-    const content = `80degrees — Creative brief\n\nProject type: ${projectType}\n\nThe idea\n${idea.trim()}\n\nBefore you build\n1. Who is this for?\n2. What problem should it solve?\n3. What is the first thing someone should be able to do?\n4. What would make that first version useful?\n\nThis is a text brief, not a generated app.\nSaved with the 80degrees idea planner.\n`;
-    const url = URL.createObjectURL(
-      new Blob([content], { type: "text/plain;charset=utf-8" }),
-    );
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "80degrees-creative-brief.txt";
-    anchor.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setDownloaded(true);
-  };
 
   return (
     <>
@@ -187,18 +165,6 @@ export default function App() {
                 <a href="#waitlist" className="button button-rust">
                   Join waitlist <ArrowUpRight size={18} />
                 </a>
-                <a
-                  href="https://drive.google.com/file/d/1Kfp0SgYGO8Ge_Zdd4FWYe6IiWHrG0qlo/view?usp=sharing"
-                  className="button button-demo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Play size={15} /> Watch demo
-                  <span className="sr-only">(opens in a new tab)</span>
-                </a>
-              </div>
-              <div className="hero-note">
-                <span className="status-dot" /> Engineering agents work today. Join for access updates.
               </div>
             </div>
             <div className="hero-visual">
@@ -211,9 +177,6 @@ export default function App() {
               <span className="scene-label">
                 <span /> BUILT FROM YOUR IDEAS
               </span>
-              <div className="drag-note">
-                <Plus size={13} /> Drag to find your angle
-              </div>
             </div>
             <div className="hero-footer">
               <a href="#platform">
@@ -240,9 +203,6 @@ export default function App() {
           </section>
 
           <section className="manifesto section-wrap" id="platform">
-            <div className="section-label">
-              <span className="small-cross">+</span> BUILT FOR BUILDERS
-            </div>
             <div className="manifesto-content" data-reveal>
               <h2>
                 {"You know the problem.".split(" ").map((word, index) => (
@@ -264,31 +224,17 @@ export default function App() {
               <div className="manifesto-bottom">
                 <Mark />
                 <p>
-                  For founders testing an idea, makers starting a side project,
-                  and developers ready to build. Bring the goal; engineering
-                  agents take on the planning, coding, testing, and debugging.
+                  For founders, makers, and developers. Bring the goal; agents
+                  take on the planning, coding, testing, and debugging.
                 </p>
                 <a className="text-link" href="#process">
                   See how it works <ArrowUpRight size={18} />
                 </a>
               </div>
-              <dl className="product-details">
-                <div>
-                  <dt>Working today</dt>
-                  <dd>
-                    Engineering agents that turn a plain-English idea into
-                    working software on your machine.
-                  </dd>
-                </div>
-                <div>
-                  <dt>Your machine. Your API keys.</dt>
-                  <dd>
-                    Local builds use your machine and your API keys—not platform
-                    credits. You pay your model provider for usage, with no markup
-                    from 80degrees.
-                  </dd>
-                </div>
-              </dl>
+              <p className="product-note">
+                Your machine. Your API keys. Pay your model provider directly,
+                with no markup from 80degrees.
+              </p>
             </div>
           </section>
 
@@ -305,13 +251,8 @@ export default function App() {
                 <span className="serif">Explore the details.</span>
               </h2>
               <p>
-                Interactive worlds, 3D experiences, and a website recreation.
-                Select a preview to open the live site in a new tab.
+                Explore three real projects built with 80degrees.
               </p>
-            </div>
-            <div className="build-toolbar">
-              <h3>Live projects</h3>
-              <p>Real previews. Live links.</p>
             </div>
             <div className="projects-grid">
               {projects.map((project) => (
@@ -321,12 +262,6 @@ export default function App() {
                   paused={paused}
                 />
               ))}
-            </div>
-            <div className="builds-foot">
-              <span>Different projects. A place to find your next idea.</span>
-              <a href="#create" className="text-link">
-                Write your brief <ArrowUpRight size={19} />
-              </a>
             </div>
           </section>
 
@@ -353,7 +288,6 @@ export default function App() {
               </h2>
               <p>
                 From the first prompt to running code.
-                Here’s how the engineering agents work.
               </p>
               <div className="process-steps">
                 {steps.map((item, index) => (
@@ -385,7 +319,6 @@ export default function App() {
               <div className="demo-top">
                 <Mark />
                 <span>THE WORKFLOW, ILLUSTRATED</span>
-                <span className="status-dot" />
               </div>
               <div className="demo-orbit">
                 <span className="demo-orbit-ring" />
@@ -398,23 +331,9 @@ export default function App() {
                     <Sparkles size={16} />
                   </span>
                   <span>{steps[step].status}</span>
-                  <Check size={15} />
                 </div>
                 <p>{steps[step].input}</p>
-                <div className="demo-prompt-bottom">
-                  <span>
-                    {step === 0
-                      ? "An example prompt"
-                      : step === 1
-                        ? "Planning, coding, testing"
-                        : "Reviewing and refining"}
-                  </span>
-                  <span className="demo-send">
-                    <ArrowUpRight size={17} />
-                  </span>
-                </div>
               </div>
-              <span className="demo-caption">{steps[step].tag}</span>
               <div className="demo-dots">
                 {steps.map((_, index) => (
                   <button
@@ -429,73 +348,25 @@ export default function App() {
             </div>
           </section>
 
-          <section className="create-section section-wrap" id="create">
-            <div className="create-heading">
-              <div className="create-flower">
-                <Mark />
-              </div>
-              <h2>
-                Got an idea?
-                <br />
-                <span className="serif">Put it into words.</span>
-              </h2>
+          <Waitlist />
+          {/* Keep contact secondary to signup; the waitlist owns the access CTA. */}
+          <section className="contact section-wrap" aria-labelledby="contact-title">
+            <div>
+              <h2 id="contact-title">Have questions? Let’s talk.</h2>
               <p>
-                Save a simple creative brief to use when you’re ready to build.
+                We’d love to hear what you’re building and answer your questions.
               </p>
             </div>
-            <form className="idea-form" onSubmit={downloadBrief}>
-              <div className="type-picker" aria-label="Project type">
-                {["Website", "App", "Internal tool"].map((type) => (
-                  <button
-                    type="button"
-                    key={type}
-                    aria-pressed={projectType === type}
-                    className={projectType === type ? "active" : ""}
-                    onClick={() => {
-                      setProjectType(type);
-                      setDownloaded(false);
-                    }}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-              <label className="idea-label" htmlFor="idea">
-                What do you want to build, and who is it for?
-              </label>
-              <textarea
-                id="idea"
-                value={idea}
-                onChange={(event) => {
-                  setIdea(event.target.value);
-                  setDownloaded(false);
-                }}
-                placeholder="A booking app for my pottery studio, so students can find a class and reserve a seat…"
-                required
-                minLength={10}
-                maxLength={3000}
-                rows={3}
-                aria-describedby="brief-help brief-status"
-              />
-              <div className="form-footer">
-                <span id="brief-help">Text brief only. No app is generated here.</span>
-                <button className="button button-rust" type="submit">
-                  {downloaded ? "Download again" : "Download brief"}
-                  <Download size={16} />
-                </button>
-              </div>
-              <div className="form-status" id="brief-status" role="status">
-                {downloaded ? (
-                  <>
-                    <Check size={14} /> Brief download started. Your idea is saved as a text file.
-                  </>
-                ) : (
-                  "At least 10 characters. Saved on your device, not sent to us."
-                )}
-              </div>
-            </form>
+            <a
+              className="text-link"
+              href="https://calendly.com/80degrees01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a conversation <ArrowUpRight size={18} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
           </section>
-          <Waitlist />
         </main>
         <footer className="footer section-wrap">
           <div className="footer-top">

@@ -54,10 +54,12 @@ export default function Waitlist() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim(), consent }),
       });
-      const data = await response.json();
-      if (!response.ok || data.success !== true) {
+      const data = await response.json().catch(() => null);
+      if (!response.ok || data?.success !== true) {
         setError(
-          data.error || "We couldn’t save your signup. Please try again.",
+          typeof data?.error === "string"
+            ? data.error
+            : "We couldn’t confirm your signup. Please try again shortly.",
         );
         setStatus("error");
         return;
@@ -107,8 +109,7 @@ export default function Waitlist() {
           <span className="serif waitlist-head-start">a head start.</span>
         </h2>
         <p>
-          From a plain-English idea to a working product.
-          Join the 80degrees waitlist for launch updates.
+          Join the waitlist. Bring your next idea to 80degrees.
         </p>
       </div>
       <div className="waitlist-signup">
@@ -118,11 +119,10 @@ export default function Waitlist() {
               <Check size={28} aria-hidden="true" />
             </span>
             <h3>You’re on the list.</h3>
-            <p>We’ll email you with 80degrees launch updates. Until then, keep that idea close.</p>
+            <p>Thanks for joining. We’ll email you about the 80degrees launch.</p>
           </div>
         ) : (
           <form onSubmit={submit} aria-busy={status === "submitting"}>
-            <h3 className="waitlist-form-title">Make room for your next idea.</h3>
             <label className="waitlist-email-label" htmlFor="waitlist-email">
               Email address
             </label>

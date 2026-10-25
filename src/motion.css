@@ -40,42 +40,17 @@
 .process-copy.is-visible {
   clip-path: inset(0);
 }
-.create-heading h2 {
-  transition:
-    transform 1s var(--ease),
-    clip-path 1s var(--ease);
-  clip-path: inset(0 0 20% 0);
-  transform: translateY(24px);
-}
-.create-heading.is-visible h2 {
-  clip-path: inset(0);
-  transform: translateY(0);
-}
-.idea-form {
-  transition: transform 1.1s var(--ease);
-  transform: translateY(35px);
-}
-.idea-form.is-visible {
-  transform: translateY(0);
-}
 .footer-wordmark {
   transform: translateY(calc((1 - var(--footer-arrival, 1)) * 65px));
   clip-path: inset(0 0 calc((1 - var(--footer-arrival, 1)) * 45%) 0);
 }
 
-/* Native scrolling carries one uninterrupted cinematic journey. */
+/* Keep the cinematic sequence skippable and brief enough for a signup page. */
 .scroll-story {
-  height: 2400svh;
+  height: 800svh;
   position: relative;
   background: var(--night);
   color: var(--on-dark);
-}
-.story-waypoint {
-  position: absolute;
-  top: calc((100% - 100dvh) * var(--chapter-progress));
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
 }
 .story-stage {
   position: sticky;
@@ -228,14 +203,9 @@
   right: 4%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 24px;
 }
-.story-chapters {
-  display: flex;
-  gap: 28px;
-}
-.story-chapters a,
 .story-skip {
   display: inline-flex;
   align-items: center;
@@ -244,15 +214,8 @@
   font-size: 11px;
   text-shadow: 0 1px 6px var(--night);
 }
-.story-chapters a[aria-current="step"],
-.story-chapters a:hover,
 .story-skip:hover {
   color: var(--on-dark);
-}
-.story-chapters a[aria-current="step"] {
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-color: var(--orange);
 }
 .story-skip {
   gap: 9px;
@@ -289,7 +252,7 @@
     transform: translateY(calc(var(--hero-progress, 0) * 20px));
   }
   .scroll-story {
-    height: 1800svh;
+    height: 650svh;
   }
   .story-topline {
     top: max(18px, env(safe-area-inset-top));
@@ -320,10 +283,6 @@
     right: 6%;
     gap: 12px;
   }
-  .story-chapters {
-    gap: 16px;
-  }
-  .story-chapters a,
   .story-skip {
     font-size: 10px;
   }
@@ -352,9 +311,7 @@
   .project-image,
   .project-meta,
   .process-demo,
-  .footer-wordmark,
-  .idea-form,
-  .create-heading h2 {
+  .footer-wordmark {
     transform: none;
     opacity: 1;
     clip-path: none;
@@ -402,8 +359,6 @@
     opacity: 1 !important;
     transform: none !important;
   }
-  .story-waypoint,
-  .story-chapters,
   .story-meter {
     display: none;
   }

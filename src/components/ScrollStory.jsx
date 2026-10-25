@@ -2,11 +2,6 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
 const SpaceScene = lazy(() => import("./SpaceScene"));
 
-const chapters = [
-  { label: "Departure", progress: 0.12 },
-  { label: "Beyond", progress: 0.5 },
-  { label: "Arrival", progress: 0.97 },
-];
 const titleLines = [
   "START WITH AN IDEA",
   "BUILD SOMETHING REAL",
@@ -48,7 +43,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
     const stage = root.querySelector(".story-stage");
     const title = root.querySelector(".story-title");
     const arrival = root.querySelector(".story-arrival");
-    const links = [...root.querySelectorAll(".story-chapters a")];
     const meter = root.querySelector(".story-meter-fill");
     let frame;
     const update = () => {
@@ -83,10 +77,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
         : `translateY(${(1 - range(value, 0.94, 0.97)) * 18}px)`;
       arrival.setAttribute("aria-hidden", String(!arrivalVisible));
       arrival.inert = !arrivalVisible;
-      const active = value < 0.3 ? 0 : value < 0.88 ? 1 : 2;
-      links.forEach((link, index) =>
-        link.setAttribute("aria-current", index === active ? "step" : "false"),
-      );
       meter.style.transform = `scaleX(${value})`;
     };
     const schedule = () => {
@@ -106,16 +96,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
     };
   }, [reduced]);
 
-  const goTo = (event, value) => {
-    event.preventDefault();
-    const root = section.current;
-    const stage = root.querySelector(".story-stage");
-    const offset = root.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({
-      top: offset + (root.offsetHeight - stage.offsetHeight) * value,
-      behavior: reduced ? "auto" : "smooth",
-    });
-  };
 
   return (
     <section
@@ -124,15 +104,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
       id="story"
       aria-label="An 80degrees journey from idea to creation"
     >
-      {chapters.map((chapter) => (
-        <span
-          key={chapter.label}
-          id={`story-${chapter.label.toLowerCase()}`}
-          className="story-waypoint"
-          style={{ "--chapter-progress": chapter.progress }}
-          aria-hidden="true"
-        />
-      ))}
       <div className="story-stage">
         {nearby && (
           <Suspense fallback={null}>
@@ -190,24 +161,12 @@ export default function ScrollStory({ paused, onTogglePause }) {
             inert={reduced ? undefined : ""}
           >
             <span className="story-arrival-brand">80degrees</span>
-            <a href="#builds" className="button button-rust story-cta">
-              Explore the live projects <ArrowUpRight size={20} />
+            <a href="#waitlist" className="button button-rust story-cta">
+              Join waitlist <ArrowUpRight size={20} />
             </a>
           </div>
         </div>
         <div className="story-bottom">
-          <nav className="story-chapters" aria-label="Story chapters">
-            {chapters.map((chapter, index) => (
-              <a
-                key={chapter.label}
-                href={`#story-${chapter.label.toLowerCase()}`}
-                onClick={(event) => goTo(event, chapter.progress)}
-                aria-current={index === 0 ? "step" : "false"}
-              >
-                {chapter.label}
-              </a>
-            ))}
-          </nav>
           <a href="#builds" className="story-skip">
             Skip story <ArrowDown size={14} />
           </a>

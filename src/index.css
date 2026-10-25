@@ -288,36 +288,6 @@ textarea {
   padding: 0 25px;
   gap: 35px;
 }
-.button-demo {
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink);
-}
-.button-demo:hover {
-  background: var(--surface);
-  border-color: var(--muted);
-}
-.hero-actions .button-demo {
-  gap: 10px;
-}
-.hero-note {
-  margin-top: 22px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  line-height: 1.6;
-  color: var(--muted);
-  animation: hero-arrive 1.2s 0.3s var(--ease) both;
-}
-.status-dot {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--rust);
-}
 .hero-visual {
   position: absolute;
   right: 1%;
@@ -396,18 +366,6 @@ textarea {
   background: var(--rust);
   border-radius: 50%;
 }
-.drag-note {
-  position: absolute;
-  bottom: 4%;
-  left: 49%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 10px;
-  z-index: 3;
-  pointer-events: none;
-}
 .hero-footer {
   position: absolute;
   bottom: 29px;
@@ -461,25 +419,6 @@ textarea {
   padding-top: 114px;
   padding-bottom: 117px;
   background: var(--surface);
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 45px;
-}
-.section-label {
-  font-size: 9px;
-  line-height: 1.8;
-  letter-spacing: 1px;
-  max-width: 170px;
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  padding-top: 11px;
-  color: var(--muted);
-}
-.small-cross {
-  font-size: 23px;
-  line-height: 0.75;
-  color: var(--rust);
 }
 h2 {
   font-family: "Manrope", sans-serif;
@@ -538,23 +477,14 @@ h2 .serif {
 }
 .manifesto-content {
   min-width: 0;
+  max-width: 1000px;
+  margin-inline: auto;
 }
-.product-details {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px 36px;
-  margin: 40px 0 0;
-  padding-top: 28px;
-  border-top: 1px solid var(--line);
-}
-.product-details dt {
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 600;
-}
-.product-details dd {
-  margin: 0;
+.product-note {
   max-width: 70ch;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
   font-size: 13px;
   line-height: 1.8;
   color: var(--muted);
@@ -576,25 +506,6 @@ h2 .serif {
   color: var(--muted);
   max-width: 330px;
   padding-bottom: 6px;
-}
-.build-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  margin-bottom: 29px;
-}
-.build-toolbar h3 {
-  font:
-    600 20px/1.4 "Manrope",
-    sans-serif;
-  letter-spacing: -0.02em;
-}
-.build-toolbar > p {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
 }
 .projects-grid {
   display: grid;
@@ -717,18 +628,6 @@ h2 .serif {
   padding: 5px 10px;
   color: var(--muted);
   flex-shrink: 0;
-}
-.builds-foot {
-  margin-top: 52px;
-  border-top: 1px solid var(--line);
-  padding-top: 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.builds-foot > span {
-  font-size: 11px;
-  color: var(--muted);
 }
 .possibility-band {
   background: var(--rust);
@@ -908,10 +807,6 @@ h2 .serif {
   font-size: 10px;
   color: var(--muted);
 }
-.demo-prompt > div:first-child > svg {
-  margin-left: auto;
-  color: var(--rust);
-}
 .demo-icon {
   width: 25px;
   height: 25px;
@@ -924,29 +819,8 @@ h2 .serif {
 .demo-prompt > p {
   font-size: 14px;
   line-height: 1.6;
-  margin: 17px 0 20px;
+  margin: 17px 0 0;
   max-width: 270px;
-}
-.demo-prompt-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 8px;
-  color: var(--muted);
-}
-.demo-send {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--rust);
-  color: var(--paper);
-  display: grid;
-  place-items: center;
-}
-.demo-caption {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 24px;
 }
 .demo-dots {
   display: flex;
@@ -966,111 +840,28 @@ h2 .serif {
   width: 20px;
   border-radius: 3px;
 }
-.create-section {
-  background: var(--surface);
-  padding-top: 90px;
-  padding-bottom: 95px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.create-heading {
-  text-align: center;
-}
-.create-flower {
-  width: 49px;
-  height: 49px;
-  margin: 0 auto 20px;
-  color: var(--rust);
-}
-.create-flower > svg {
-  width: 100%;
-  height: 100%;
-}
-.create-heading h2 {
-  font-size: clamp(38px, 4vw, 59px);
-}
-.create-heading p {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 22px;
-  line-height: 1.7;
-}
-.idea-form {
-  background: var(--paper);
-  border-radius: 14px;
-  padding: 23px 25px 0;
-  width: 100%;
-  max-width: 640px;
-  margin-top: 37px;
-}
-.type-picker {
-  display: flex;
-  gap: 6px;
-}
-.type-picker > button {
-  font-size: 10px;
-  background: none;
-  color: var(--muted);
-  padding: 7px 12px;
-  border-radius: 25px;
-}
-.type-picker > button.active {
-  background: var(--ink);
-  color: var(--on-dark);
-}
-.type-picker > button:not(.active):hover {
-  background: var(--surface);
-}
-.idea-label {
-  display: block;
-  margin-top: 25px;
-  font-size: 12px;
-  line-height: 1.6;
-}
-.idea-form textarea {
-  resize: vertical;
-  width: 100%;
-  min-height: 100px;
-  max-height: 300px;
-  background: transparent;
-  border: 0;
-  padding: 12px 4px 14px;
-  color: var(--ink);
-  font-size: 15px;
-  line-height: 1.65;
-}
-.idea-form textarea::placeholder {
-  color: var(--muted);
-}
-.form-footer {
+.contact {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding-bottom: 20px;
+  gap: 32px 48px;
+  padding-top: 64px;
+  padding-bottom: 64px;
 }
-.form-footer > span {
-  font-size: 10px;
+.contact h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.2;
+}
+.contact p {
+  max-width: 52ch;
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.8;
   color: var(--muted);
 }
-.form-footer .button {
-  font-size: 11px;
-  min-height: 41px;
-  gap: 22px;
-  padding: 0 18px;
-}
-.form-status {
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 9px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  padding: 11px 0;
-  text-align: center;
-  min-height: 36px;
+.contact > .text-link {
+  flex-shrink: 0;
+  min-height: 44px;
 }
 .footer {
   background: var(--night);
@@ -1243,10 +1034,6 @@ h2 .serif {
     font-size: 7px;
     letter-spacing: 1px;
   }
-  .manifesto {
-    grid-template-columns: 1fr 3fr;
-    gap: 25px;
-  }
   .manifesto-bottom {
     gap: 20px;
     flex-wrap: wrap;
@@ -1356,10 +1143,6 @@ h2 .serif {
     padding: 0 20px;
     gap: 14px;
   }
-  .hero-note {
-    margin-top: 17px;
-    font-size: 9px;
-  }
   .hero-visual {
     position: relative;
     width: 108%;
@@ -1383,12 +1166,6 @@ h2 .serif {
   .scene-shadow {
     bottom: 10%;
     height: 14px;
-  }
-  .drag-note {
-    bottom: 1%;
-    font-size: 8px;
-    left: auto;
-    right: 16%;
   }
   .hero-footer {
     left: 6%;
@@ -1417,17 +1194,6 @@ h2 .serif {
   .manifesto {
     padding-top: 62px;
     padding-bottom: 65px;
-    display: block;
-  }
-  .section-label {
-    max-width: none;
-    font-size: 7px;
-    padding: 0;
-    margin-bottom: 30px;
-    gap: 10px;
-  }
-  .small-cross {
-    font-size: 19px;
   }
   .manifesto h2 {
     font-size: 36px;
@@ -1449,12 +1215,8 @@ h2 .serif {
     margin-top: 3px;
     font-size: 11px;
   }
-  .product-details {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-top: 30px;
-  }
-  .product-details dd {
+  .product-note {
+    margin-top: 28px;
     font-size: 12px;
   }
   .builds {
@@ -1472,9 +1234,6 @@ h2 .serif {
     font-size: 12px;
     max-width: 320px;
     margin-top: 23px;
-  }
-  .build-toolbar {
-    margin-bottom: 23px;
   }
   .projects-grid {
     grid-template-columns: 1fr;
@@ -1494,19 +1253,6 @@ h2 .serif {
   }
   .category-tag {
     font-size: 8px;
-  }
-  .builds-foot {
-    margin-top: 35px;
-    padding-top: 23px;
-    gap: 22px;
-  }
-  .builds-foot > span {
-    font-size: 9px;
-    max-width: 150px;
-  }
-  .builds-foot .text-link {
-    font-size: 10px;
-    gap: 8px;
   }
   .possibility-band {
     padding: 24px 0 28px;
@@ -1554,52 +1300,15 @@ h2 .serif {
   .demo-top {
     font-size: 6px;
   }
-  .demo-caption {
-    font-size: 9px;
+  .contact {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 48px;
+    padding-bottom: 48px;
   }
-  .create-section {
-    padding-top: 58px;
-    padding-bottom: 58px;
-  }
-  .create-flower {
-    width: 39px;
-    height: 39px;
-  }
-  .create-heading h2 {
-    font-size: 33px;
-  }
-  .create-heading p {
-    font-size: 11px;
-    max-width: 270px;
-    margin: 20px auto 0;
-    line-height: 1.7;
-  }
-  .idea-form {
-    padding: 18px 17px 0;
-    margin-top: 28px;
-  }
-  .type-picker > button {
-    font-size: 9px;
-    padding: 7px 10px;
-  }
-  .idea-form textarea {
+  .contact p {
     font-size: 13px;
-    padding-top: 12px;
-  }
-  .form-footer > span {
-    font-size: 8px;
-    max-width: 120px;
-    line-height: 1.5;
-  }
-  .form-footer .button {
-    font-size: 10px;
-    gap: 15px;
-    padding: 0 14px;
-    min-height: 38px;
-  }
-  .form-status {
-    font-size: 8px;
-    line-height: 1.5;
   }
   .footer {
     padding-top: 35px;
@@ -1672,9 +1381,6 @@ h2 .serif {
   }
   .section-heading h2 {
     font-size: 34px;
-  }
-  .create-heading h2 {
-    font-size: 29px;
   }
   .process h2 {
     font-size: 33px;
