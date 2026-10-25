@@ -559,9 +559,6 @@ h2 .serif {
   line-height: 1.8;
   color: var(--muted);
 }
-.product-economics {
-  grid-column: 1 / -1;
-}
 .builds {
   padding-top: 111px;
   padding-bottom: 78px;

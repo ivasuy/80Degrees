@@ -281,18 +281,11 @@ export default function App() {
                   </dd>
                 </div>
                 <div>
-                  <dt>Planned next</dt>
-                  <dd>
-                    Business agents for research, outreach, ads, social media,
-                    support, payments, and operations. These aren’t available yet.
-                  </dd>
-                </div>
-                <div className="product-economics">
                   <dt>Your machine. Your API keys.</dt>
                   <dd>
                     Local builds use your machine and your API keys—not platform
                     credits. You pay your model provider for usage, with no markup
-                    from 80degrees. Paid cloud and business agents are planned.
+                    from 80degrees.
                   </dd>
                 </div>
               </dl>
