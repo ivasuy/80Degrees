@@ -14,6 +14,7 @@ import {
 import IntroSequence from "./components/IntroSequence";
 import ScrollStory from "./components/ScrollStory";
 import ProjectCard from "./components/ProjectCard";
+import Waitlist from "./components/Waitlist";
 import useScrollMotion from "./lib/useScrollMotion";
 import "./motion.css";
 const BrandScene = lazy(() => import("./components/BrandScene"));
@@ -154,8 +155,12 @@ export default function App() {
               </a>
             ))}
           </nav>
-          <a className="button button-dark nav-cta" href="#create">
-            Let’s build <ArrowUpRight size={16} />
+          <a
+            className="button button-dark nav-cta"
+            href="#waitlist"
+            onClick={() => setMenuOpen(false)}
+          >
+            Join waitlist <ArrowUpRight size={16} />
           </a>
           <button
             className="menu-toggle"
@@ -471,6 +476,7 @@ export default function App() {
               </div>
             </form>
           </section>
+          <Waitlist />
         </main>
         <footer className="footer section-wrap">
           <div className="footer-top">
@@ -483,6 +489,32 @@ export default function App() {
               Back to the top <ArrowUpRight size={17} />
             </a>
           </div>
+          <nav className="footer-socials" aria-label="80degrees social links">
+            <a
+              href="https://x.com/80degrees_labs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              X <ArrowUpRight size={15} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+            <a
+              href="https://www.instagram.com/80degrees_labs/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram <ArrowUpRight size={15} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+            <a
+              href="https://discord.gg/pgMwgwfcm8"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Join Discord <ArrowUpRight size={15} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          </nav>
           <div className="footer-wordmark" aria-hidden="true">
             make <span className="serif">something.</span>
             <ArrowUpRight />

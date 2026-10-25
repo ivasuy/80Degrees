@@ -1,13 +1,21 @@
-// STARTER BACKEND: Adapt or replace these mock routes and data store to match the requested application.
+// Local API: waitlist signups use the same private storage service as api/waitlist.js.
+// The unrelated starter item routes below remain in-memory.
 import express from 'express';
 import cors from 'cors';
 
+import { joinWaitlist } from './waitlist.js';
 const app = express();
 // CRITICAL: Always use process.env.BACKEND_PORT || process.env.PORT to allow workspace dynamic port allocation
 const PORT = process.env.BACKEND_PORT || process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
+
+app.post('/api/waitlist', async (req, res) => {
+  const result = await joinWaitlist(req.body);
+  result.headers.forEach((value, name) => res.setHeader(name, value));
+  res.status(result.status).send(await result.text());
+});
 
 // In-memory data store for quick fullstack prototyping
 let items = [

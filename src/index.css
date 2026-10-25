@@ -1050,6 +1050,24 @@ h2 .serif {
   align-items: center;
   gap: 15px;
 }
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 24px;
+}
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 13px;
+  color: var(--on-dark-muted);
+  transition: color 180ms ease;
+}
+.footer-socials a:hover {
+  color: var(--on-dark);
+}
 .footer-wordmark {
   font-family: "Manrope", sans-serif;
   font-size: clamp(60px, 10.1vw, 160px);
