@@ -1,11 +1,46 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import "./waitlist.css";
 
 export default function Waitlist() {
+  const section = useRef(null);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const element = section.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
+
+    // The brand makes one 80-degree entrance, never an unattended loop.
+    // CSS also pauses it immediately under the site's .motion-paused control.
+    const syncMotion = () => {
+      element.dataset.motion =
+        visible && !document.hidden && !reducedMotion.matches
+          ? "running"
+          : "paused";
+      if (visible) element.dataset.entered = "true";
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        syncMotion();
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(element);
+    document.addEventListener("visibilitychange", syncMotion);
+    reducedMotion.addEventListener("change", syncMotion);
+    syncMotion();
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncMotion);
+      reducedMotion.removeEventListener("change", syncMotion);
+    };
+  }, []);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -38,30 +73,56 @@ export default function Waitlist() {
 
   return (
     <section
+      ref={section}
       className="waitlist section-wrap"
       id="waitlist"
       aria-labelledby="waitlist-title"
+      data-motion="paused"
     >
       <div className="waitlist-copy">
+        <svg
+          className="waitlist-mark"
+          viewBox="0 0 512 512"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            className="waitlist-mark-arc"
+            d="M376 310A154 154 0 1 1 336 142"
+            stroke="currentColor"
+            strokeWidth="60"
+            strokeLinecap="round"
+          />
+          <circle
+            className="waitlist-mark-dot"
+            cx="424"
+            cy="169"
+            r="33"
+            fill="currentColor"
+          />
+        </svg>
         <h2 id="waitlist-title">
-          Be part of
+          Your idea deserves
           <br />
-          <span className="serif">what’s next.</span>
+          <span className="serif waitlist-head-start">a head start.</span>
         </h2>
         <p>
+          From a plain-English idea to a working product.
           Join the 80degrees waitlist for launch updates.
-          <br />A new angle on creating, straight to your inbox.
         </p>
       </div>
       <div className="waitlist-signup">
         {status === "success" ? (
           <div className="waitlist-success" role="status">
-            <Check size={28} aria-hidden="true" />
+            <span className="waitlist-success-mark">
+              <Check size={28} aria-hidden="true" />
+            </span>
             <h3>You’re on the list.</h3>
-            <p>Thanks for joining 80degrees. We’re glad you’re here.</p>
+            <p>We’ll email you with 80degrees launch updates. Until then, keep that idea close.</p>
           </div>
         ) : (
           <form onSubmit={submit} aria-busy={status === "submitting"}>
+            <h3 className="waitlist-form-title">Make room for your next idea.</h3>
             <label className="waitlist-email-label" htmlFor="waitlist-email">
               Email address
             </label>
@@ -114,7 +175,7 @@ export default function Waitlist() {
                 </p>
               )}
               {status === "submitting" && (
-                <p role="status">Saving your place…</p>
+                <p role="status">Saving your signup…</p>
               )}
             </div>
           </form>

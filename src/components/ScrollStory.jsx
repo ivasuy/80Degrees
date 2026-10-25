@@ -8,9 +8,9 @@ const chapters = [
   { label: "Arrival", progress: 0.97 },
 ];
 const titleLines = [
-  "STEP INTO A NEW WORLD",
-  "AND TURN YOUR",
-  "IMAGINATION INTO REALITY",
+  "START WITH AN IDEA",
+  "BUILD SOMETHING REAL",
+  "SEE HOW FAR IT GOES",
 ];
 const range = (value, start, end) =>
   Math.max(0, Math.min(1, (value - start) / (end - start)));
@@ -191,7 +191,7 @@ export default function ScrollStory({ paused, onTogglePause }) {
           >
             <span className="story-arrival-brand">80degrees</span>
             <a href="#builds" className="button button-rust story-cta">
-              Bring your next idea to life. <ArrowUpRight size={20} />
+              Explore the live projects <ArrowUpRight size={20} />
             </a>
           </div>
         </div>
@@ -210,17 +210,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
           </nav>
           <a href="#builds" className="story-skip">
             Skip story <ArrowDown size={14} />
-          </a>
-        </div>
-        <div className="story-credit">
-          Original scene assets:{" "}
-          <a
-            href="https://lusion.co/"
-            target="_blank"
-            rel="noreferrer"
-            title="Original meshes, textures, and animation by Lusion. Local rendering adapted for 80degrees. Downloading these assets does not establish commercial reuse rights."
-          >
-            Lusion
           </a>
         </div>
         <div className="story-meter" aria-hidden="true">

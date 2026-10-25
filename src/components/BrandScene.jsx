@@ -22,34 +22,35 @@ export default function BrandScene({ paused }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.95;
+    // Neutral product lighting preserves the logo's rust rather than a filmic hue shift.
+    renderer.toneMapping = THREE.NeutralToneMapping;
+    renderer.toneMappingExposure = 1;
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     const palette = getComputedStyle(container);
-    const orange = new THREE.Color(palette.getPropertyValue("--orange").trim());
+    const brandColor = new THREE.Color(palette.getPropertyValue("--rust").trim());
     const ivory = new THREE.Color(palette.getPropertyValue("--paper").trim());
-    const copper = new THREE.Color(palette.getPropertyValue("--rust").trim());
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
     camera.position.set(0, 0, 11);
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
     const environment = pmrem.fromScene(room, 0.04);
     scene.environment = environment.texture;
-    const ambient = new THREE.HemisphereLight(ivory, copper, 1.8);
+    scene.environmentIntensity = 0.35;
+    const ambient = new THREE.HemisphereLight(ivory, brandColor, 0.55);
     scene.add(ambient);
-    const key = new THREE.DirectionalLight(ivory, 4);
+    const key = new THREE.DirectionalLight(ivory, 1.1);
     key.position.set(-4, 5, 6);
     scene.add(key);
-    const edge = new THREE.DirectionalLight(ivory, 3);
+    const edge = new THREE.DirectionalLight(ivory, 0.8);
     edge.position.set(5, 2, -3);
     scene.add(edge);
     const material = new THREE.MeshPhysicalMaterial({
-      color: orange,
-      metalness: 0.65,
-      roughness: 0.28,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.18,
+      color: brandColor,
+      metalness: 0.1,
+      roughness: 0.45,
+      clearcoat: 0.15,
+      clearcoatRoughness: 0.4,
     });
     const cream = new THREE.MeshPhysicalMaterial({
       color: ivory,
@@ -196,7 +197,7 @@ export default function BrandScene({ paused }) {
     <div
       className="brand-scene"
       ref={host}
-      aria-label="Interactive copper 80degrees sculpture. Drag to rotate."
+      aria-label="Interactive rust-orange 80degrees sculpture. Drag to rotate."
     >
       {!available && (
         <svg
