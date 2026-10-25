@@ -122,20 +122,6 @@
   width: 24px;
   height: 24px;
 }
-.story-topline > button {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid color-mix(in srgb, var(--on-dark) 25%, transparent);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--night) 60%, transparent);
-  color: var(--on-dark);
-}
-.story-topline > button:hover {
-  border-color: var(--orange);
-  color: var(--orange);
-}
 .story-copy {
   position: absolute;
   inset: 0;
@@ -195,31 +181,6 @@
 .story-cta svg {
   flex-shrink: 0;
 }
-.story-bottom {
-  position: absolute;
-  z-index: 2;
-  bottom: max(48px, calc(env(safe-area-inset-bottom) + 32px));
-  left: 4%;
-  right: 4%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
-}
-.story-skip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  color: var(--on-dark-muted);
-  font-size: 11px;
-  text-shadow: 0 1px 6px var(--night);
-}
-.story-skip:hover {
-  color: var(--on-dark);
-}
-.story-skip {
-  gap: 9px;
-}
 .story-meter {
   position: absolute;
   left: 0;
@@ -277,18 +238,6 @@
     font-size: 16px;
     gap: 10px;
   }
-  .story-bottom {
-    bottom: max(44px, calc(env(safe-area-inset-bottom) + 30px));
-    left: 6%;
-    right: 6%;
-    gap: 12px;
-  }
-  .story-skip {
-    font-size: 10px;
-  }
-  .story-skip {
-    gap: 5px;
-  }
 }
 @media (max-height: 500px) and (prefers-reduced-motion: no-preference) {
   .story-topline {
@@ -300,9 +249,6 @@
   .story-arrival {
     margin-bottom: 100px;
     gap: 6px;
-  }
-  .story-bottom {
-    bottom: max(30px, env(safe-area-inset-bottom));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -361,12 +307,5 @@
   }
   .story-meter {
     display: none;
-  }
-  .story-bottom {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    right: auto;
-    margin: 0 6% 24px;
   }
 }

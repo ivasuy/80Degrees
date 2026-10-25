@@ -14,7 +14,7 @@ export default function Waitlist() {
     let visible = false;
 
     // The brand makes one 80-degree entrance, never an unattended loop.
-    // CSS also pauses it immediately under the site's .motion-paused control.
+    // Motion follows visibility and the visitor's reduced-motion preference.
     const syncMotion = () => {
       element.dataset.motion =
         visible && !document.hidden && !reducedMotion.matches

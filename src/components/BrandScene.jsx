@@ -2,14 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-export default function BrandScene({ paused }) {
+export default function BrandScene() {
   const host = useRef(null);
-  const pause = useRef(paused);
   const [available, setAvailable] = useState(true);
-  useEffect(() => {
-    pause.current = paused;
-  }, [paused]);
-
   useEffect(() => {
     const container = host.current;
     let renderer;
@@ -145,7 +140,7 @@ export default function BrandScene({ paused }) {
       const delta = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (!visible || document.hidden) return;
-      if (!pause.current && !reduced.matches) time += delta;
+      if (!reduced.matches) time += delta;
       const motion = reduced.matches ? 0 : 1;
       const scroll = Math.min(window.scrollY / window.innerHeight, 1);
       group.rotation.x +=

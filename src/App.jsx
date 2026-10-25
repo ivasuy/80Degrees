@@ -1,12 +1,9 @@
 import { lazy, Suspense, useRef, useState } from "react";
 import {
   ArrowUpRight,
-  ArrowDown,
   Plus,
   X,
   Menu,
-  Pause,
-  Play,
   Sparkles,
 } from "lucide-react";
 import IntroSequence from "./components/IntroSequence";
@@ -75,7 +72,6 @@ export default function App() {
       !window.location.hash,
   );
   const [menuOpen, setMenuOpen] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [step, setStep] = useState(0);
   const app = useRef(null);
   const steps = [
@@ -106,7 +102,7 @@ export default function App() {
       {intro && <IntroSequence onComplete={() => setIntro(false)} />}
       <div
         ref={app}
-        className={paused ? "site motion-paused" : "site"}
+        className="site"
         data-intro={intro}
         inert={intro ? "" : undefined}
       >
@@ -171,34 +167,12 @@ export default function App() {
               <div className="orbit-line orbit-line-one" />
               <div className="orbit-line orbit-line-two" />
               <Suspense fallback={<Mark className="scene-fallback" />}>
-                <BrandScene paused={paused} />
+                <BrandScene />
               </Suspense>
               <div className="scene-shadow" />
               <span className="scene-label">
                 <span /> BUILT FROM YOUR IDEAS
               </span>
-            </div>
-            <div className="hero-footer">
-              <a href="#platform">
-                <span className="round-arrow">
-                  <ArrowDown size={17} />
-                </span>{" "}
-                Meet your engineering agents.
-              </a>
-              <div className="hero-footer-right">
-                <span>YOUR IDEA. YOUR MACHINE.</span>
-                <button
-                  className="motion-toggle"
-                  onClick={() => setPaused(!paused)}
-                  aria-label={
-                    paused
-                      ? "Play ambient animation"
-                      : "Pause ambient animation"
-                  }
-                >
-                  {paused ? <Play size={13} /> : <Pause size={13} />}
-                </button>
-              </div>
             </div>
           </section>
 
@@ -238,10 +212,7 @@ export default function App() {
             </div>
           </section>
 
-          <ScrollStory
-            paused={paused}
-            onTogglePause={() => setPaused((value) => !value)}
-          />
+          <ScrollStory />
 
           <section className="builds section-wrap" id="builds">
             <div className="section-heading" data-reveal>
@@ -259,7 +230,6 @@ export default function App() {
                 <ProjectCard
                   key={project.id}
                   project={project}
-                  paused={paused}
                 />
               ))}
             </div>

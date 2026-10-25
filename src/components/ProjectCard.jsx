@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-export default function ProjectCard({ project, paused }) {
+export default function ProjectCard({ project }) {
   const card = useRef(null);
   const video = useRef(null);
   const [hovered, setHovered] = useState(false);
@@ -12,7 +12,7 @@ export default function ProjectCard({ project, paused }) {
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
   const active =
-    (hovered || focused) && allowed && visible && pageVisible && !paused;
+    (hovered || focused) && allowed && visible && pageVisible;
 
   useEffect(() => {
     const motion = matchMedia("(prefers-reduced-motion: reduce)");

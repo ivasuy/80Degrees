@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 const SpaceScene = lazy(() => import("./SpaceScene"));
 
 const titleLines = [
@@ -10,7 +10,7 @@ const titleLines = [
 const range = (value, start, end) =>
   Math.max(0, Math.min(1, (value - start) / (end - start)));
 
-export default function ScrollStory({ paused, onTogglePause }) {
+export default function ScrollStory() {
   const section = useRef(null);
   const progress = useRef(0);
   const [nearby, setNearby] = useState(false);
@@ -107,7 +107,7 @@ export default function ScrollStory({ paused, onTogglePause }) {
       <div className="story-stage">
         {nearby && (
           <Suspense fallback={null}>
-            <SpaceScene progress={progress} paused={paused} reduced={reduced} />
+            <SpaceScene progress={progress} reduced={reduced} />
           </Suspense>
         )}
         <div className="story-topline">
@@ -115,17 +115,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
             <img src="/favicon.svg" alt="" width="24" height="24" />
             80degrees
           </a>
-          <button
-            onClick={onTogglePause}
-            aria-label={
-              paused
-                ? "Play story ambient motion"
-                : "Pause story ambient motion"
-            }
-            aria-pressed={paused}
-          >
-            {paused ? <Play size={14} /> : <Pause size={14} />}
-          </button>
         </div>
         <div className="story-copy">
           <h2
@@ -165,11 +154,6 @@ export default function ScrollStory({ paused, onTogglePause }) {
               Join waitlist <ArrowUpRight size={20} />
             </a>
           </div>
-        </div>
-        <div className="story-bottom">
-          <a href="#builds" className="story-skip">
-            Skip story <ArrowDown size={14} />
-          </a>
         </div>
         <div className="story-meter" aria-hidden="true">
           <span className="story-meter-fill" />

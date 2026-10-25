@@ -366,55 +366,6 @@ textarea {
   background: var(--rust);
   border-radius: 50%;
 }
-.hero-footer {
-  position: absolute;
-  bottom: 29px;
-  left: 5.55%;
-  right: 5.55%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-}
-.hero-footer > a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 10px;
-  color: var(--muted);
-}
-.round-arrow {
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  color: var(--ink);
-}
-.hero-footer > a:hover .round-arrow {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-.hero-footer-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 8px;
-  letter-spacing: 1.7px;
-  color: var(--muted);
-}
-.motion-toggle {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: transparent;
-}
 .manifesto {
   padding-top: 114px;
   padding-bottom: 117px;
@@ -964,9 +915,6 @@ h2 .serif {
   transform: translateY(0);
   opacity: 1;
 }
-.motion-paused .marquee-track {
-  animation-play-state: paused;
-}
 @keyframes hero-arrive {
   from {
     transform: translateY(22px);
@@ -1030,10 +978,6 @@ h2 .serif {
   }
   .hero-copy > p {
     font-size: 14px;
-  }
-  .hero-footer-right {
-    font-size: 7px;
-    letter-spacing: 1px;
   }
   .manifesto-bottom {
     gap: 20px;
@@ -1167,30 +1111,6 @@ h2 .serif {
   .scene-shadow {
     bottom: 10%;
     height: 14px;
-  }
-  .hero-footer {
-    left: 6%;
-    right: 6%;
-    bottom: 24px;
-    padding-top: 18px;
-  }
-  .hero-footer > a {
-    font-size: 8px;
-    gap: 8px;
-  }
-  .hero-footer-right > span {
-    display: none;
-  }
-  .hero-footer-right {
-    gap: 0;
-  }
-  .round-arrow {
-    width: 26px;
-    height: 26px;
-  }
-  .motion-toggle {
-    width: 26px;
-    height: 26px;
   }
   .manifesto {
     padding-top: 62px;

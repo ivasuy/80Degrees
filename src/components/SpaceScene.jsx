@@ -18,13 +18,13 @@ const smooth = (value, from, to) => {
 
 // Original meshes, baked skeleton, entrance/exit and fracture tracks: Lusion.
 // Local Three.js rendering; the source website is neither embedded nor hotlinked.
-export default function SpaceScene({ progress, paused, reduced }) {
+export default function SpaceScene({ progress, reduced }) {
   const host = useRef(null);
-  const options = useRef({ paused, reduced });
+  const reducedMotion = useRef(reduced);
   const [status, setStatus] = useState("loading");
   useEffect(() => {
-    options.current = { paused, reduced };
-  }, [paused, reduced]);
+    reducedMotion.current = reduced;
+  }, [reduced]);
 
   useEffect(() => {
     const container = host.current;
@@ -265,17 +265,15 @@ export default function SpaceScene({ progress, paused, reduced }) {
     let time = 0;
     let lastProgress = -1;
     let lastQuiet = null;
-    let lastPointerX = 0;
-    let lastPointerY = 0;
     let smoothedProgress = null;
     const animate = (now) => {
       frame = requestAnimationFrame(animate);
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (!visible || document.hidden || !prepared) return;
-      const { paused: stopped, reduced: quiet } = options.current;
+      const quiet = reducedMotion.current;
       const goal = quiet ? 0.03 : clamp(progress.current);
-      if (smoothedProgress === null || stopped || quiet)
+      if (smoothedProgress === null || quiet)
         smoothedProgress = goal;
       else
         smoothedProgress +=
@@ -284,18 +282,15 @@ export default function SpaceScene({ progress, paused, reduced }) {
       const p = smoothedProgress;
       if (
         !needsRender &&
-        (stopped || quiet) &&
+        quiet &&
         p === lastProgress &&
-        lastQuiet === quiet &&
-        (quiet || (pointer.x === lastPointerX && pointer.y === lastPointerY))
+        lastQuiet === quiet
       )
         return;
       needsRender = false;
-      if (!stopped && !quiet) time += dt;
+      if (!quiet) time += dt;
       lastProgress = p;
       lastQuiet = quiet;
-      lastPointerX = pointer.x;
-      lastPointerY = pointer.y;
       const departure = range(p, 0.03, 0.3);
       const tunnelProgress = range(p, 0.3, 0.76);
       const returning = range(p, 0.76, 0.95);

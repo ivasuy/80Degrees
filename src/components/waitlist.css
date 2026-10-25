@@ -178,12 +178,6 @@
 .waitlist[data-motion="running"] .waitlist-success-mark svg {
   animation-play-state: running;
 }
-.motion-paused .waitlist .waitlist-mark-arc,
-.motion-paused .waitlist .waitlist-mark-dot,
-.motion-paused .waitlist .waitlist-head-start::after,
-.motion-paused .waitlist .waitlist-success-mark svg {
-  animation-play-state: paused;
-}
 @keyframes waitlist-angle {
   from {
     transform: rotate(-80deg);
