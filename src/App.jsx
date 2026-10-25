@@ -286,7 +286,11 @@ export default function App() {
             </div>
             <div className="projects-grid">
               {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} paused={paused} />
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  paused={paused}
+                />
               ))}
             </div>
             <div className="builds-foot">

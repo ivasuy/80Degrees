@@ -11,15 +11,17 @@ export default function ProjectCard({ project, paused }) {
   const [pageVisible, setPageVisible] = useState(!document.hidden);
   const [loaded, setLoaded] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const active = (hovered || focused) && allowed && visible && pageVisible && !paused;
+  const active =
+    (hovered || focused) && allowed && visible && pageVisible && !paused;
 
   useEffect(() => {
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     const pointer = matchMedia("(hover: hover) and (pointer: fine)");
-    const updatePreference = () => setAllowed(!motion.matches && pointer.matches);
+    const updatePreference = () =>
+      setAllowed(!motion.matches && pointer.matches);
     const updateVisibility = () => setPageVisible(!document.hidden);
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
+    const observer = new IntersectionObserver(([entry]) =>
+      setVisible(entry.isIntersecting),
     );
     observer.observe(card.current);
     updatePreference();
@@ -63,7 +65,9 @@ export default function ProjectCard({ project, paused }) {
       data-playing={playing}
       onPointerEnter={(event) => setHovered(event.pointerType === "mouse")}
       onPointerLeave={() => setHovered(false)}
-      onFocus={(event) => setFocused(event.currentTarget.matches(":focus-visible"))}
+      onFocus={(event) =>
+        setFocused(event.currentTarget.matches(":focus-visible"))
+      }
       onBlur={() => setFocused(false)}
     >
       <div className="project-image">

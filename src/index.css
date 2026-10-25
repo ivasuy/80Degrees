@@ -584,7 +584,9 @@ h2 .serif {
   inset: 0;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 220ms ease, transform 1s var(--ease);
+  transition:
+    opacity 220ms ease,
+    transform 1s var(--ease);
 }
 .project-card[data-playing="true"] .project-motion {
   opacity: 1;

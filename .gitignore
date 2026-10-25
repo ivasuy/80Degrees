@@ -6,3 +6,5 @@ dist
 .80degrees_checkpoints.json
 .80degrees_branches.json
 .80degrees_meta.json
+.vercel
+.env*

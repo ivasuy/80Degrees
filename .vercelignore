@@ -1,0 +1,7 @@
+.80degrees_*
+.omp
+.git
+node_modules
+dist
+.env*
+*.log
