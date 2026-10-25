@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "vercel-plugin": {
+      "version": "0.50.0",
+      "enabledFeatures": null,
+      "enabled": true
+    }
+  },
+  "settings": {}
+}

@@ -578,6 +578,23 @@ h2 .serif {
 .project-card:focus-visible .project-art {
   transform: scale(1.035);
 }
+/* Motion clips are layered over the poster only after playback has started. */
+.project-motion {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 1s var(--ease);
+}
+.project-card[data-playing="true"] .project-motion {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-card:hover .project-art,
+  .project-card:focus-visible .project-art {
+    transform: none;
+  }
+}
 .project-open {
   position: absolute;
   right: 19px;

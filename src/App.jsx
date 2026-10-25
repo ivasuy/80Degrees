@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import IntroSequence from "./components/IntroSequence";
 import ScrollStory from "./components/ScrollStory";
+import ProjectCard from "./components/ProjectCard";
 import useScrollMotion from "./lib/useScrollMotion";
 import "./motion.css";
 const BrandScene = lazy(() => import("./components/BrandScene"));
@@ -26,6 +27,7 @@ const projects = [
     type: "Interactive world",
     url: "https://abeto-messenger.vercel.app",
     preview: "/images/projects/abeto-messenger.webp",
+    motion: "/videos/projects/abeto-messenger.mp4",
     alt: "Abeto Messenger's illustrated island and Messenger title",
   },
   {
@@ -34,6 +36,7 @@ const projects = [
     type: "3D experience",
     url: "https://bruno-nine-wine.vercel.app",
     preview: "/images/projects/bruno.webp",
+    motion: "/videos/projects/bruno.mp4",
     alt: "Bruno's red off-road car beneath a glowing pink tree",
   },
   {
@@ -42,6 +45,7 @@ const projects = [
     type: "Website recreation",
     url: "https://igloo-recreation-umber.vercel.app",
     preview: "/images/projects/igloo-recreation.webp",
+    motion: "/videos/projects/igloo-recreation.mp4",
     alt: "Igloo Recreation's illuminated ice-block igloo in a snowy mountain landscape",
   },
 ];
@@ -282,37 +286,7 @@ export default function App() {
             </div>
             <div className="projects-grid">
               {projects.map((project) => (
-                <a
-                  key={project.id}
-                  className="project-card"
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Visit ${project.name} live site (opens in a new tab)`}
-                >
-                  <div className="project-image">
-                    <img
-                      className="project-art"
-                      src={project.preview}
-                      alt={project.alt}
-                      width="1024"
-                      height="711"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <span className="project-open" aria-hidden="true">
-                      <ArrowUpRight size={21} />
-                    </span>
-                    <span className="project-hover-text">Visit live site</span>
-                  </div>
-                  <div className="project-meta">
-                    <div>
-                      <h3>{project.name}</h3>
-                      <span>{project.type}</span>
-                    </div>
-                    <span className="category-tag">Live site</span>
-                  </div>
-                </a>
+                <ProjectCard key={project.id} project={project} paused={paused} />
               ))}
             </div>
             <div className="builds-foot">

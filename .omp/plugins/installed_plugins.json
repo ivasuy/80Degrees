@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "plugins": {
+    "vercel@claude-plugins-official": [
+      {
+        "scope": "project",
+        "installPath": "/Users/apple/.omp/plugins/cache/plugins/claude-plugins-official___vercel___0.50.0",
+        "version": "0.50.0",
+        "installedAt": "2026-10-25T08:57:18.197Z",
+        "lastUpdated": "2026-10-25T08:57:18.197Z"
+      }
+    ]
+  }
+}
